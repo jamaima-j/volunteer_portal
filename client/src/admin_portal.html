@@ -49,7 +49,7 @@
 
     <div id="EventManagement" class="tabcontent">
         <h3>Event Management Form</h3>
-        <form id="eventForm">
+        <form id="eventForm" onsubmit="return validateEventForm()">
             <label for="eventName">Event Name (100 characters, required):</label><br>
             <input type="text" id="eventName" name="eventName" maxlength="100" required><br>
             <label for="eventDescription">Event Description (required):</label><br>
@@ -74,6 +74,7 @@
             <input type="submit" value="Submit">
         </form>
     </div>
+
 
     <div id="VolunteerMatching" class="tabcontent">
         <h3>Volunteer Matching Form</h3>
