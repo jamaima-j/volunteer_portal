@@ -4,6 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import Dashboard from './dashboard';
 import Profile from './Profile';
+import AdminPortal from './admin_portal'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminPortal />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </div>

@@ -3,13 +3,66 @@ import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 
 const states = [
+  { code: 'AL', name: 'Alabama' },
+  { code: 'AK', name: 'Alaska' }, 
+  { code: 'AZ', name: 'Arizona' },
+  { code: 'AR', name: 'Arkansas' },
+  { code: 'CA', name: 'California' },
+  { code: 'CO', name: 'Colorado' },
+  { code: 'CT', name: 'Connecticut' },
+  { code: 'DE', name: 'Delaware' },
+  { code: 'DC', name: 'Disctrict of Columbia' },
+  { code: 'FL', name: 'Florida' },
+  { code: 'GA', name: 'Georgia' },
+  { code: 'HI', name: 'Hawaii' },
+  { code: 'ID', name: 'Idaho' },
+  { code: 'IL', name: 'Illinois' },
+  { code: 'IN', name: 'Indiana' },
+  { code: 'IA', name: 'Iowa' },
+  { code: 'KS', name: 'Kansas' },
+  { code: 'KY', name: 'Kentucky' },
+  { code: 'LA', name: 'Louisiana' },
+  { code: 'ME', name: 'Maine' },
+  { code: 'MD', name: 'Maryland' },
+  { code: 'MA', name: 'Massachusetts' },
+  { code: 'MI', name: 'Michigan' },
+  { code: 'MN', name: 'Minnesota' },
+  { code: 'MS', name: 'Mississippi' },
+  { code: 'MO', name: 'Missouri' },
+  { code: 'MT', name: 'Montana' },
+  { code: 'NE', name: 'Nebraska' },
+  { code: 'NH', name: 'New Hampshire' },
+  { code: 'NJ', name: 'New Jersey' },
+  { code: 'NM', name: 'New Mexico' },
+  { code: 'NY', name: 'New York' },
+  { code: 'NC', name: 'North Carolina' },
+  { code: 'ND', name: 'North Dakota' },
+  { code: 'OH', name: 'Ohio' },
+  { code: 'OK', name: 'Oklahoma' },
+  { code: 'OR', name: 'Oregon' },
+  { code: 'PA', name: 'Pennsylvania' },
+  { code: 'RI', name: 'Rhode Island' },
+  { code: 'SC', name: 'South Carolina' },
+  { code: 'SD', name: 'South Dakota' },
+  { code: 'TN', name: 'Tennessee' },
   { code: 'TX', name: 'Texas' },
-  //add other states
+  { code: 'UT', name: 'Utah' },
+  { code: 'VT', name: 'Vermont' },
+  { code: 'VA', name: 'Virginia' },
+  { code: 'WA', name: 'Washington' },
+  { code: 'WV', name: 'West Virginia' },
+  { code: 'WI', name: 'Wisconsin' },
+  { code: 'WY', name: 'Wyoming' },
+
 ];
 
 const skills = [
   'Placeholder Skill 1', 'Placeholder Skill 2', 'Placeholder Skill 3', //temporary
 ];
+
+const days = [
+  'Placeholder Date 1', 'Placeholder Date 2', 'Placeholder Date 3', //also temporary
+]
 
 const Profile = () => {
   const [fullName, setFullName] = useState('');
@@ -24,7 +77,7 @@ const Profile = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmission = () => {
     //validate required fields
     if (!fullName || !address1 || !city || !state || !zip || selectedSkills.length === 0 || availability.length === 0) {
       setError('Please fill in all required fields.');
@@ -33,7 +86,7 @@ const Profile = () => {
 
     //simulate saving profile data for the time being
     console.log('Profile saved successfully');
-    navigate('/dashboard');
+    navigate('/dashboard'); //route to dashboard
   };
 
   const handleSkillsChange = (event) => {
@@ -112,9 +165,13 @@ const Profile = () => {
         onChange={(e) => setPreferences(e.target.value)}
       />
       <select multiple={true} value={availability} onChange={handleAvailabilityChange}>
-        {/*add date options for availability */} 
+        {days.map((day, index) => (
+          <option key={index} value={day}>
+            {day}
+          </option>
+        ))} 
       </select>
-      <button onClick={handleSubmit}>Save Profile</button>
+      <button onClick={handleSubmission}>Save Profile</button>
       {error && <p className="error">{error}</p>}
     </div>
   );

@@ -10,7 +10,8 @@ const Login = () => {
 
   //hard-coded temporary valid login credentials 
   const validCredentials = [
-    { email: 'omarwabbouchi@gmail.com', password: 'omar' },
+    { email: 'omarwabbouchi@gmail.com', password: 'omar', profileComplete: true, accountType: 'admin' },
+    { email: 'test@test.com', password: 'test', profileComplete: false, accountType: 'volunteer'}
   ];
 
   const handleLogin = () => {
@@ -23,8 +24,13 @@ const Login = () => {
     } else {
       setError('');
       console.log('Logged in successfully');
-      //will route to dashboard
-      navigate('/dashboard'); //need to create dashboard/route component?
+      if (user.accountType === 'admin') {
+        navigate('/admin');
+      } else if (user.profileComplete) {
+        navigate('/dashboard');
+      } else {
+        navigate('/profile');
+      }
     }
   };
 

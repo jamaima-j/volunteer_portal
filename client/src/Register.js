@@ -8,7 +8,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [registeredUsers, setRegisteredUsers] = useState([
-    { email: 'omarwabbouchi@gmail.com', password: 'omar' },
+    { email: 'omarwabbouchi@gmail.com', password: 'omar', accountType: 'admin' },
   ]);
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const Register = () => {
       setError('User already exists. Please login.');
       return;
     } else {
-      const newUser = { email, password };
+      const newUser = { email, password, accountType: 'volunteer', profileComplete: false };
       setRegisteredUsers([...registeredUsers, newUser]);
       setError('');
       console.log('Registered successfully');
