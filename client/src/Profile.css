@@ -1,0 +1,24 @@
+/* literally all temporary, i will fix it later */
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  input, select, textarea {
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+  }
+  
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  
