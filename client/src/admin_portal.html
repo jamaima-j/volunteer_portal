@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Portal</title>
     <script src="EventM.js" defer></script>
+    <script src="VH.js" defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -91,6 +92,32 @@
         <h3>Volunteer History</h3>
         <p>Here you can view the history of volunteer activities.</p>
         <!-- Add content for volunteer history here -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Required Skills</th>
+                    <th>Urgency</th>
+                    <th>Event Date</th>
+                    <th>Participation Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be populated here -->
+                <!-- Example static row -->
+                <tr>
+                    <td>Community Clean-Up</td>
+                    <td>Cleaning up the local park</td>
+                    <td>Central Park</td>
+                    <td>Cleaning, Teamwork</td>
+                    <td>High</td>
+                    <td>2024-07-15</td>
+                    <td>Participated</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div id="Notification" class="tabcontent">
