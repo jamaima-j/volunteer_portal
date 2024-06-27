@@ -105,3 +105,23 @@ body {
 
 // Inject the CSS styles
 injectStyle(css);
+
+// Form validation for Event Management
+function validateEventForm() {
+    const eventName = document.getElementById('eventName').value;
+    const eventDescription = document.getElementById('eventDescription').value;
+    const location = document.getElementById('location').value;
+    const requiredSkills = document.getElementById('requiredSkills').selectedOptions;
+    const urgency = document.getElementById('urgency').value;
+    const eventDate = document.getElementById('eventDate').value;
+
+    if (eventName.length < 100) {
+        alert('Event Name must be minimum 100 characters.');
+        return false;
+    }
+    if (!eventName || !eventDescription || !location || requiredSkills.length === 0 || !urgency || !eventDate) {
+        alert('Please fill out all required fields.');
+        return false;
+    }
+    return true;
+}
