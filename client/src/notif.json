@@ -1,0 +1,20 @@
+{
+    "notifications": [
+        {
+            "type": "new-event",
+            "message": "New event assigned to you."
+        },
+        {
+            "type": "reminder",
+            "message": "Reminder: Event starting in 1 hour."
+        },
+        {
+            "type": "new-event",
+            "message": "New training session available."
+        },
+        {
+            "type": "reminder",
+            "message": "Reminder: Submit your volunteer hours."
+        }
+    ]
+}
