@@ -8,7 +8,9 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState([]);
   const [registeredUsers, setRegisteredUsers] = useState([
-    { email: 'omarwabbouchi@gmail.com', password: 'omar', accountType: 'admin' }, //hardcoded in for now
+    { email: 'omarwabbouchi@gmail.com', password: 'omar', accountType: 'admin' },
+    { email: 'jamaimajan@gmail.com', password: 'jamaima1234', accountType: 'admin'},
+    { email: 'leannalkhateeb@gmail.com', password: 'lilly1234', accountType: 'admin'} //hardcoded in for now
   ]);
   const navigate = useNavigate();
 
