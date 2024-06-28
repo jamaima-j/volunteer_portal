@@ -8,7 +8,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  //hard-coded temporary valid login credentials 
+  //hard-coded temporary valid login credentials, will change later on
   const validCredentials = [
     { email: 'omarwabbouchi@gmail.com', password: 'omaromar', profileComplete: true, accountType: 'admin' },
     { email: 'test@test.com', password: 'testtest', profileComplete: false, accountType: 'volunteer'}
@@ -52,7 +52,7 @@ const Login = () => {
         />
         <button onClick={handleLogin}>Login</button>
         {error && <p className="error">{error}</p>}
-        <p>Don't have an account? <a href="/register">Register here</a></p>
+        <p>Don't have an account? <a href="/register">Sign up here!</a></p>
       </div>
     </div>
   );
