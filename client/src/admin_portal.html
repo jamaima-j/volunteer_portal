@@ -4,128 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Portal</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="EventM.js" defer></script>
     <script src="VH.js" defer></script>
     <script src="Notif.js" defer></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #EBECF1;
         }
-        .tabs {
-            overflow: hidden;
-            background-color: #f1f1f1;
-        }
-        .tablink {
-            background-color: #555;
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            position: fixed;
+            background: #0C2646;
             color: white;
-            float: left;
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar .tablink {
+            display: block;
+            margin-bottom: 10px;
+            color: white;
+            background: #204065;
+            padding: 10px;
+            text-align: left;
             border: none;
-            outline: none;
+            width: 100%;
             cursor: pointer;
-            padding: 14px 16px;
-            font-size: 17px;
-            transition: 0.3s;
         }
-        .tablink:hover {
-            background-color: #777;
+
+        .sidebar .tablink:hover {
+            background: #2A5788;
         }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
         .tabcontent {
             display: none;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-top: none;
         }
-        .tabcontent h3 {
+
+        .tabcontent.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            box-shadow: 0px 1px 15px 1px rgba(39, 39, 39, 0.10);
+            border-radius: 3px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
             margin-top: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            margin-top: 10px;
+        }
+
+        form input, form textarea, form select {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        form input[type="submit"] {
+            margin-top: 20px;
+            background: #0C2646;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background: #204065;
+        }
+
+        .multi-select {
+            height: 100px;
         }
     </style>
 </head>
 <body>
-    <div class="tabs">
+    <div class="sidebar">
+        <h2>Admin Portal</h2>
+        <button class="tablink" onclick="openTab(event, 'Welcome')">Welcome</button>
         <button class="tablink" onclick="openTab(event, 'EventManagement')">Event Management Form</button>
         <button class="tablink" onclick="openTab(event, 'VolunteerMatching')">Volunteer Matching Form</button>
         <button class="tablink" onclick="openTab(event, 'VolunteerHistory')">Volunteer History</button>
         <button class="tablink" onclick="openTab(event, 'Notification')">Notification</button>
     </div>
 
-    <div id="EventManagement" class="tabcontent">
-        <h3>Event Management Form</h3>
-        <form id="eventForm" onsubmit="return validateEventForm()">
-            <label for="eventName">Event Name (100 characters, required):</label><br>
-            <input type="text" id="eventName" name="eventName" maxlength="100" required><br>
-            <label for="eventDescription">Event Description (required):</label><br>
-            <textarea id="eventDescription" name="eventDescription" required></textarea><br>
-            <label for="location">Location (required):</label><br>
-            <textarea id="location" name="location" required></textarea><br>
-            <label for="requiredSkills">Required Skills (required):</label><br>
-            <select id="requiredSkills" name="requiredSkills" multiple required>
-                <option value="skill1">Skill 1</option>
-                <option value="skill2">Skill 2</option>
-                <option value="skill3">Skill 3</option>
-                <!-- Add more options as needed -->
-            </select><br>
-            <label for="urgency">Urgency (required):</label><br>
-            <select id="urgency" name="urgency" required>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select><br>
-            <label for="eventDate">Event Date (required):</label><br>
-            <input type="date" id="eventDate" name="eventDate" required><br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
+    <div class="main-content">
+        <div id="Welcome" class="tabcontent">
+            <div class="card welcome-card">
+                <h3>Welcome Admin</h3> 
+            </div>
+        </div>
 
+        <div id="EventManagement" class="tabcontent">
+            <div class="card">
+                <h3>Event Management Form</h3>
+                <form id="eventForm" onsubmit="return validateEventForm()">
+                    <label for="eventName">Event Name (100 characters, required):</label>
+                    <input type="text" id="eventName" name="eventName" maxlength="100" required>
+                    
+                    <label for="eventDescription">Event Description (required):</label>
+                    <textarea id="eventDescription" name="eventDescription" required></textarea>
+                    
+                    <label for="location">Location (required):</label>
+                    <textarea id="location" name="location" required></textarea>
+                    
+                    <label for="requiredSkills">Required Skills (required):</label>
+                    <select id="requiredSkills" name="requiredSkills" class="multi-select" multiple required>
+                        <!-- Skill options will be dynamically added here -->
+                    </select>
+                    
+                    <label for="urgency">Urgency (required):</label>
+                    <select id="urgency" name="urgency" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    
+                    <label for="eventDate">Event Date (required):</label>
+                    <input type="date" id="eventDate" name="eventDate" required>
+                    
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
 
-    <div id="VolunteerMatching" class="tabcontent">
-        <h3>Volunteer Matching Form</h3>
-        <form>
-            <label for="volunteerName">Volunteer Name:</label><br>
-            <input type="text" id="volunteerName" name="volunteerName"><br>
-            <label for="volunteerSkills">Volunteer Skills:</label><br>
-            <input type="text" id="volunteerSkills" name="volunteerSkills"><br>
-            <label for="volunteerAvailability">Volunteer Availability:</label><br>
-            <input type="text" id="volunteerAvailability" name="volunteerAvailability"><br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
+        <div id="VolunteerMatching" class="tabcontent">
+            <div class="card">
+                <h3>Volunteer Matching Form</h3>
+                <form>
+                    <label for="volunteerName">Volunteer Name:</label>
+                    <input type="text" id="volunteerName" name="volunteerName">
+                    
+                    <label for="volunteerSkills">Volunteer Skills:</label>
+                    <input type="text" id="volunteerSkills" name="volunteerSkills">
+                    
+                    <label for="volunteerAvailability">Volunteer Availability:</label>
+                    <input type="text" id="volunteerAvailability" name="volunteerAvailability">
+                    
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
 
-    <div id="VolunteerHistory" class="tabcontent">
-        <h3>Volunteer History</h3>
-        <p>Here you can view the history of volunteer activities.</p>
-        <!-- Add content for volunteer history here -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Event Name</th>
-                    <th>Description</th>
-                    <th>Location</th>
-                    <th>Required Skills</th>
-                    <th>Urgency</th>
-                    <th>Event Date</th>
-                    <th>Participation Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dynamic rows will be populated here -->
-                <!-- Example static row -->
-                <tr>
-                    <td>Community Clean-Up</td>
-                    <td>Cleaning up the local park</td>
-                    <td>Central Park</td>
-                    <td>Cleaning, Teamwork</td>
-                    <td>High</td>
-                    <td>2024-07-15</td>
-                    <td>Participated</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div id="VolunteerHistory" class="tabcontent">
+            <div class="card">
+                <h3>Volunteer History</h3>
+                <p>Here you can view the history of volunteer activities.</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Description</th>
+                            <th>Location</th>
+                            <th>Required Skills</th>
+                            <th>Urgency</th>
+                            <th>Event Date</th>
+                            <th>Participation Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic rows will be populated here -->
+                        <!-- Example static row -->
+                        <tr>
+                            <td>Community Clean-Up</td>
+                            <td>Cleaning up the local park</td>
+                            <td>Central Park</td>
+                            <td>Cleaning, Teamwork</td>
+                            <td>High</td>
+                            <td>2024-07-15</td>
+                            <td>Participated</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div id="Notification" class="tabcontent">
-        <h3>Notification</h3>
-        <div id="notifications">
-            <!-- Notifications will be dynamically added here -->
+        <div id="Notification" class="tabcontent">
+            <div class="card">
+                <h3>Notification</h3>
+                <div id="notifications">
+                    <!-- Notifications will be dynamically added here -->
+                    <h4>Urgent Messages</h4>
+                    <ul id="urgentMessages">
+                        <!-- Example urgent messages -->
+                        <li>
+                            <input type="checkbox" id="msg1">
+                            <label for="msg1">Message 1: High urgency task pending.</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="msg2">
+                            <label for="msg2">Message 2: Immediate action required.</label>
+                        </li>
+                    </ul>
+                </div>
+                <div id="popup" class="popup">
+                    <p>Reminder: You have pending tasks to complete!</p>
+                    <button class="close-btn" onclick="closePopup()">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -142,14 +245,14 @@
             // Remove the background color of all tablinks/buttons
             tablinks = document.getElementsByClassName("tablink");
             for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].style.backgroundColor = "";
+                tablinks[i].classList.remove("active");
             }
 
             // Show the specific tab content
             document.getElementById(tabName).style.display = "block";
 
             // Add an active class to the button that opened the tab
-            evt.currentTarget.style.backgroundColor = "#777";
+            evt.currentTarget.classList.add("active");
         }
 
         // Default open the first tab
