@@ -11,14 +11,14 @@ function openTab(evt, tabName) {
     // Remove the background color of all tablinks/buttons
     tablinks = document.getElementsByClassName("tablink");
     for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
+        tablinks[i].classList.remove("active");
     }
 
     // Show the specific tab content
     document.getElementById(tabName).style.display = "block";
 
     // Add an active class to the button that opened the tab
-    evt.currentTarget.style.backgroundColor = "#777";
+    evt.currentTarget.classList.add("active");
 }
 
 // Default open the first tab
@@ -45,61 +45,98 @@ body {
 
 .tabs {
     overflow: hidden;
-    background-color: #f1f1f1;
+    background-color: #2e3a56;
+    color: white;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
 }
 
-.tablink {
+.tabs button {
+    display: block;
     background-color: #555;
     color: white;
-    float: left;
+    width: 100%;
     border: none;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
     transition: 0.3s;
+    text-align: left;
 }
 
-.tablink:hover {
+.tabs button:hover, .tabs button.active {
     background-color: #777;
 }
 
 .tabcontent {
-    display: none;
+    margin-left: 250px;
     padding: 20px;
-    border: 1px solid #ccc;
     border-top: none;
+    height: 100vh;
+    overflow: auto;
 }
 
 .tabcontent h3 {
     margin-top: 0;
 }
 
-.tabcontent form {
-    display: flex;
-    flex-direction: column;
+.card {
+    background-color: #252a41;
+    border: 1px solid #444c6b;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.tabcontent form input[type="text"],
-.tabcontent form input[type="date"],
-.tabcontent form textarea,
-.tabcontent form select {
-    margin-bottom: 10px;
-    padding: 8px;
-    font-size: 16px;
+.card h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
 }
 
-.tabcontent form input[type="submit"] {
+.card label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.card input[type="text"],
+.card textarea,
+.card select,
+.card input[type="date"] {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #444c6b;
+    border-radius: 5px;
+    background-color: #1b1e2f;
+    color: white;
+    box-sizing: border-box;
+}
+
+.card input[type="submit"] {
     background-color: #555;
     color: white;
     border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
-.tabcontent form input[type="submit"]:hover {
+.card input[type="submit"]:hover {
     background-color: #777;
+}
+
+/* Style for multi-select dropdown */
+.multi-select {
+    width: 100%;
+}
+
+.multi-select option {
+    padding: 10px;
 }
 `;
 
@@ -116,7 +153,7 @@ function validateEventForm() {
     const eventDate = document.getElementById('eventDate').value;
 
     if (eventName.length < 100) {
-        alert('Event Name must be minimum 100 characters.');
+        alert('Event Name must be at least 100 characters.');
         return false;
     }
     if (!eventName || !eventDescription || !location || requiredSkills.length === 0 || !urgency || !eventDate) {
@@ -125,3 +162,19 @@ function validateEventForm() {
     }
     return true;
 }
+
+// Function to dynamically add skills to the dropdown menu
+function addSkillOption(skill) {
+    const requiredSkillsSelect = document.getElementById('requiredSkills');
+    const option = document.createElement('option');
+    option.value = skill;
+    option.textContent = skill;
+    requiredSkillsSelect.appendChild(option);
+}
+
+// Example of adding skills to the dropdown menu
+addSkillOption('Skill 1');
+addSkillOption('Skill 2');
+addSkillOption('Skill 3');
+addSkillOption('Skill 4');
+addSkillOption('Skill 5');
