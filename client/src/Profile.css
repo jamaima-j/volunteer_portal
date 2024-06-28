@@ -1,11 +1,12 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   background-image: url('./volunteering_bg3.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0;
   padding: 0;
+  color: #333;
 }
 
 .profile-page {
@@ -18,24 +19,32 @@ body {
 
 .form-container {
   background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #ccc;
-  padding: 20px 40px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
   box-sizing: border-box;
-  min-height: 600;
+  text-align: center;
+  min-height: 600px;
 }
 
 input, select, textarea, button, select[multiple] {
   display: block;
-  width: calc(100% - 40px);
-  margin: 0 auto 20px auto; 
-  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px 15px;
   border: 1px solid #ccc;
-  border-radius: 3px;
-  box-sizing: border-box; 
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
 
 select[multiple] {
@@ -54,7 +63,9 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 20px; 
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
 button:hover {
@@ -63,6 +74,9 @@ button:hover {
 
 .error {
   color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }
 
 p {

@@ -11,7 +11,7 @@ const Login = () => {
   //hard-coded temporary valid login credentials 
   const validCredentials = [
     { email: 'omarwabbouchi@gmail.com', password: 'omaromar', profileComplete: true, accountType: 'admin' },
-    { email: 'test@test.com', password: 'test', profileComplete: false, accountType: 'volunteer'}
+    { email: 'test@test.com', password: 'testtest', profileComplete: false, accountType: 'volunteer'}
   ];
 
   const handleLogin = () => {
