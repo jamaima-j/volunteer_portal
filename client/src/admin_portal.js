@@ -1,10 +1,13 @@
 import React from 'react';
-//temporary boilerplate code to test functionality
+//this works, but html file has to be moved to public for use with iframe
 const AdminPortal = () => {
   return (
     <div>
-      <h2>Welcome to the Admin Portal</h2>
-      {/* will add content here */}
+      <iframe
+        src="/admin_portal.html"
+        title="Admin Portal"
+        style={{ width: '100%', height: '100vh', border: 'none'}}
+      ></iframe>
     </div>
   );
 };

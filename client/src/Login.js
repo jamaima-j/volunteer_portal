@@ -10,7 +10,7 @@ const Login = () => {
 
   //hard-coded temporary valid login credentials 
   const validCredentials = [
-    { email: 'omarwabbouchi@gmail.com', password: 'omar', profileComplete: true, accountType: 'admin' },
+    { email: 'omarwabbouchi@gmail.com', password: 'omaromar', profileComplete: true, accountType: 'admin' },
     { email: 'test@test.com', password: 'test', profileComplete: false, accountType: 'volunteer'}
   ];
 
@@ -35,25 +35,25 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Login</button>
-      {error && <p className="error">{error}</p>}
-      <p>
-        Don't have an account? <a href="/register">Register here</a>
-      </p>
+    <div className="login-page">
+      <div className="form-container">
+        <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button onClick={handleLogin}>Login</button>
+        {error && <p className="error">{error}</p>}
+        <p>Don't have an account? <a href="/register">Register here</a></p>
+      </div>
     </div>
   );
 };

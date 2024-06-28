@@ -1,24 +1,79 @@
-/* literally all temporary, i will fix it later */
-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  input, select, textarea {
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
-  }
-  
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-  }
-  
-  .error {
-    color: red;
-    margin-top: 10px;
-  }
-  
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('./volunteering_bg3.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.form-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  padding: 20px 40px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 600;
+}
+
+input, select, textarea, button, select[multiple] {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 0 auto 20px auto; 
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box; 
+}
+
+select[multiple] {
+  height: auto;
+  text-align: center;
+  text-align-last: center;
+}
+
+option {
+  text-align: center;
+}
+
+button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px; 
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+}
+
+p {
+  text-align: center;
+}
+
+a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
