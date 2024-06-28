@@ -11,14 +11,14 @@ function openTab(evt, tabName) {
     // Remove the background color of all tablinks/buttons
     tablinks = document.getElementsByClassName("tablink");
     for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
+        tablinks[i].classList.remove("active");
     }
 
     // Show the specific tab content
     document.getElementById(tabName).style.display = "block";
 
     // Add an active class to the button that opened the tab
-    evt.currentTarget.style.backgroundColor = "#777";
+    evt.currentTarget.classList.add("active");
 }
 
 // Default open the first tab
@@ -45,68 +45,98 @@ body {
 
 .tabs {
     overflow: hidden;
-    background-color: #f1f1f1;
+    background-color: #2e3a56;
+    color: white;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
 }
 
-.tablink {
+.tabs button {
+    display: block;
     background-color: #555;
     color: white;
-    float: left;
+    width: 100%;
     border: none;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
     transition: 0.3s;
+    text-align: left;
 }
 
-.tablink:hover {
+.tabs button:hover, .tabs button.active {
     background-color: #777;
 }
 
 .tabcontent {
-    display: none;
+    margin-left: 250px;
     padding: 20px;
-    border: 1px solid #ccc;
     border-top: none;
+    height: 100vh;
+    overflow: auto;
 }
 
 .tabcontent h3 {
     margin-top: 0;
 }
 
-.tabcontent form {
-    display: flex;
-    flex-direction: column;
+.card {
+    background-color: #252a41;
+    border: 1px solid #444c6b;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.tabcontent form input[type="text"],
-.tabcontent form input[type="date"],
-.tabcontent form textarea,
-.tabcontent form select {
-    margin-bottom: 10px;
-    padding: 8px;
-    font-size: 16px;
+.card h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
 }
 
-.tabcontent form input[type="submit"] {
+.card label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.card input[type="text"],
+.card textarea,
+.card select,
+.card input[type="date"] {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #444c6b;
+    border-radius: 5px;
+    background-color: #1b1e2f;
+    color: white;
+    box-sizing: border-box;
+}
+
+.card input[type="submit"] {
     background-color: #555;
     color: white;
     border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
-.tabcontent form input[type="submit"]:hover {
+.card input[type="submit"]:hover {
     background-color: #777;
 }
 
 .notification {
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #444c6b;
+    border-radius: 5px;
+    background-color: #252a41;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .notification.new-event {
@@ -120,7 +150,33 @@ body {
 }
 
 .popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #444c6b;
+    background-color: #252a41;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 5px;
     animation: popup 0.5s forwards;
+}
+
+.popup .close-btn {
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.popup .close-btn:hover {
+    background-color: #777;
 }
 
 @keyframes popup {
@@ -150,6 +206,58 @@ function addNotification(type, message) {
 
     notificationsDiv.appendChild(notification);
 }
+
+// Function to show popup
+function showPopup() {
+    document.getElementById('popup').style.display = 'block';
+}
+
+// Function to close popup
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+// Function to check if all tasks are checked off
+function checkTasks() {
+    const urgentMessages = document.getElementById('urgentMessages').getElementsByTagName('input');
+    for (let i = 0; i < urgentMessages.length; i++) {
+        if (!urgentMessages[i].checked) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Function to update the popup based on task checkboxes
+function updatePopup() {
+    if (checkTasks()) {
+        closePopup();
+    } else {
+        showPopup();
+    }
+}
+
+// Dynamically add urgent messages with checkboxes
+function addUrgentMessage(message) {
+    const urgentMessagesDiv = document.getElementById('urgentMessages');
+    const listItem = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = message;
+    checkbox.onchange = updatePopup;  // Add onchange event to update the popup
+
+    const label = document.createElement('label');
+    label.htmlFor = message;
+    label.textContent = message;
+
+    listItem.appendChild(checkbox);
+    listItem.appendChild(label);
+    urgentMessagesDiv.appendChild(listItem);
+}
+
+// Example of adding urgent messages
+addUrgentMessage("Urgent 1: Immediate action required.");
+addUrgentMessage("Urgent 2: Urgency task pending.");
 
 // Load notifications from a JSON file
 fetch('notif.json')
