@@ -153,17 +153,31 @@ const AdminPortal = () => {
 
         <div id="Notification" className="tabcontent">
           <div className="card">
-            <h3>Notification</h3>
-            <div id="notifications">
-              <h4>Urgent Messages</h4>
-              <ul id="urgentMessages">
+            <h3>Notification System</h3>
+            <div className="notification-section">
+              <h4>New Event Assignments</h4>
+              <ul className="notification-list">
                 <li className="message-item">
-                  <input type="checkbox" id="msg1" />
-                  <label htmlFor="msg1">Message 1: High urgency task pending.</label>
+                  <input type="checkbox" id="newAssignment1" />
+                  <label htmlFor="newAssignment1">New Assignment: Park Clean-Up</label>
                 </li>
+              </ul>
+            </div>
+            <div className="notification-section">
+              <h4>Updates</h4>
+              <ul className="notification-list">
                 <li className="message-item">
-                  <input type="checkbox" id="msg2" />
-                  <label htmlFor="msg2">Message 2: Immediate action required.</label>
+                  <input type="checkbox" id="update1" />
+                  <label htmlFor="update1">Update: Event location changed to Community Center</label>
+                </li>
+              </ul>
+            </div>
+            <div className="notification-section">
+              <h4>Reminders</h4>
+              <ul className="notification-list">
+                <li className="message-item">
+                  <input type="checkbox" id="reminder1" />
+                  <label htmlFor="reminder1">Reminder: Submit volunteer hours for June</label>
                 </li>
               </ul>
             </div>
