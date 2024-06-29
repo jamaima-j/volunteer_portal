@@ -10,33 +10,36 @@ html, body {
   
   .sidebar {
     width: 20%;
-    background-color: #f1f1f1;
+    background-color: #3a3f51; /* Darker shade to match the purple theme */
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
   .sidebar h2 {
     text-align: center;
+    color: white;
   }
   
   .tablink {
     display: block;
-    background-color: #ddd;
-    color: black;
+    background-color: #2A5788; /* Purple theme */
+    color: white;
     padding: 10px;
     text-align: left;
     border: none;
     cursor: pointer;
     width: 100%;
     text-decoration: none;
+    margin-bottom: 5px;
+    border-radius: 3px;
   }
   
   .tablink:hover {
-    background-color: #bbb;
+    background-color: #204065; /* Slightly darker purple on hover */
   }
   
   .tablink.active {
-    background-color: #ccc;
+    background-color: #0C2646; /* Darkest purple for active tab */
   }
   
   .main-content {
@@ -54,7 +57,7 @@ html, body {
   }
   
   .tabcontent .card {
-    background: #fff;
+    background: white;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
@@ -73,6 +76,7 @@ html, body {
   .form-section label {
     display: block;
     margin-bottom: 5px;
+    color: black;
   }
   
   .form-section input,
