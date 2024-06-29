@@ -6,15 +6,25 @@ body {
     color: white;
 }
 
+.admin-portal {
+    display: flex;
+    flex-direction: row;
+}
+
 .sidebar {
     background-color: #2e3a56;
     color: white;
     width: 250px;
     height: 100vh;
-    position: fixed;
     display: flex;
     flex-direction: column;
     padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid #444c6b;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .sidebar h2 {
@@ -22,6 +32,7 @@ body {
     margin: 0;
     padding-bottom: 20px;
     border-bottom: 1px solid #3e4a66;
+    flex: 0 0 auto;
 }
 
 .tablink {
@@ -36,6 +47,7 @@ body {
     transition: 0.3s;
     margin-bottom: 5px;
     border-radius: 5px;
+    flex: 0 0 auto;
 }
 
 .tablink:hover, .tablink.active {
@@ -47,7 +59,8 @@ body {
     padding: 20px;
     background-color: #1b1e2f;
     height: 100vh;
-    overflow: auto;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .tabcontent {
@@ -148,6 +161,16 @@ body {
 
 .table td {
     background-color: #1b1e2f;
+}
+
+.message-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message-item input[type="checkbox"] {
+    margin-right: 10px;
 }
 
 .popup {

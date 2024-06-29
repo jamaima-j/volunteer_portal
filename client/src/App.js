@@ -4,7 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import Dashboard from './dashboard';
 import Profile from './Profile';
-import AdminPortal from './admin_portal'
+import AdminPortal from './AdminPortal'
 
 function App() {
   return (
