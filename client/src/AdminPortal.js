@@ -17,6 +17,24 @@ const AdminPortal = () => {
     evt.currentTarget.className += ' active';
   };
 
+  const validateForm = (e) => {
+    const volunteerName = document.getElementById('volunteerName').value;
+    const volunteerSkills = document.getElementById('volunteerSkills').value;
+    const volunteerAvailability = document.getElementById('volunteerAvailability').value;
+
+    if (
+      volunteerName.length > 100 ||
+      volunteerSkills.length > 100 ||
+      volunteerAvailability.length > 100
+    ) {
+      alert('Each field must be no more than 100 characters.');
+      e.preventDefault();
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="admin-portal">
       <div className="sidebar">
@@ -79,18 +97,18 @@ const AdminPortal = () => {
         <div id="VolunteerMatching" className="tabcontent">
           <div className="card">
             <h3>Volunteer Matching Form</h3>
-            <form>
+            <form onSubmit={validateForm}>
               <div className="form-section">
                 <label htmlFor="volunteerName">Volunteer Name:</label>
-                <input type="text" id="volunteerName" name="volunteerName" />
+                <input type="text" id="volunteerName" name="volunteerName" maxLength="100" required />
               </div>
               <div className="form-section">
                 <label htmlFor="volunteerSkills">Volunteer Skills:</label>
-                <input type="text" id="volunteerSkills" name="volunteerSkills" />
+                <input type="text" id="volunteerSkills" name="volunteerSkills" maxLength="100" required />
               </div>
               <div className="form-section">
                 <label htmlFor="volunteerAvailability">Volunteer Availability:</label>
-                <input type="text" id="volunteerAvailability" name="volunteerAvailability" />
+                <input type="text" id="volunteerAvailability" name="volunteerAvailability" maxLength="100" required />
               </div>
               <input type="submit" value="Submit" />
             </form>
