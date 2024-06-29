@@ -17,10 +17,28 @@ const AdminPortal = () => {
     evt.currentTarget.className += ' active';
   };
 
+  const validateForm = (e) => {
+    const volunteerName = document.getElementById('volunteerName').value;
+    const volunteerSkills = document.getElementById('volunteerSkills').value;
+    const volunteerAvailability = document.getElementById('volunteerAvailability').value;
+
+    if (
+      volunteerName.length > 100 ||
+      volunteerSkills.length > 100 ||
+      volunteerAvailability.length > 100
+    ) {
+      alert('Each field must be no more than 100 characters.');
+      e.preventDefault();
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="admin-portal">
       <div className="sidebar">
-        <h2>Admin Portal</h2>
+        <h2>Administrator</h2>
         <button className="tablink" onClick={(e) => openTab(e, 'Welcome')}>Welcome</button>
         <button className="tablink" onClick={(e) => openTab(e, 'EventManagement')}>Event Management Form</button>
         <button className="tablink" onClick={(e) => openTab(e, 'VolunteerMatching')}>Volunteer Matching Form</button>
@@ -79,21 +97,25 @@ const AdminPortal = () => {
         <div id="VolunteerMatching" className="tabcontent">
           <div className="card">
             <h3>Volunteer Matching Form</h3>
-            <form>
+            <form onSubmit={validateForm}>
               <div className="form-section">
                 <label htmlFor="volunteerName">Volunteer Name:</label>
-                <input type="text" id="volunteerName" name="volunteerName" />
+                <input type="text" id="volunteerName" name="volunteerName" maxLength="100" required />
               </div>
               <div className="form-section">
                 <label htmlFor="volunteerSkills">Volunteer Skills:</label>
-                <input type="text" id="volunteerSkills" name="volunteerSkills" />
+                <input type="text" id="volunteerSkills" name="volunteerSkills" maxLength="100" required />
               </div>
               <div className="form-section">
                 <label htmlFor="volunteerAvailability">Volunteer Availability:</label>
-                <input type="text" id="volunteerAvailability" name="volunteerAvailability" />
+                <input type="text" id="volunteerAvailability" name="volunteerAvailability" maxLength="100" required />
               </div>
               <input type="submit" value="Submit" />
             </form>
+            <div className="card">
+              <h3>Volunteer has been matched to the following:</h3>
+              {/* Matched volunteer activities will be displayed here */}
+            </div>
           </div>
         </div>
 
@@ -131,17 +153,31 @@ const AdminPortal = () => {
 
         <div id="Notification" className="tabcontent">
           <div className="card">
-            <h3>Notification</h3>
-            <div id="notifications">
-              <h4>Urgent Messages</h4>
-              <ul id="urgentMessages">
+            <h3>Notification System</h3>
+            <div className="notification-section">
+              <h4>New Event Assignments</h4>
+              <ul className="notification-list">
                 <li className="message-item">
-                  <input type="checkbox" id="msg1" />
-                  <label htmlFor="msg1">Message 1: High urgency task pending.</label>
+                  <input type="checkbox" id="newAssignment1" />
+                  <label htmlFor="newAssignment1">New Assignment: Park Clean-Up</label>
                 </li>
+              </ul>
+            </div>
+            <div className="notification-section">
+              <h4>Updates</h4>
+              <ul className="notification-list">
                 <li className="message-item">
-                  <input type="checkbox" id="msg2" />
-                  <label htmlFor="msg2">Message 2: Immediate action required.</label>
+                  <input type="checkbox" id="update1" />
+                  <label htmlFor="update1">Update: Event location changed to Community Center</label>
+                </li>
+              </ul>
+            </div>
+            <div className="notification-section">
+              <h4>Reminders</h4>
+              <ul className="notification-list">
+                <li className="message-item">
+                  <input type="checkbox" id="reminder1" />
+                  <label htmlFor="reminder1">Reminder: Submit volunteer hours for June</label>
                 </li>
               </ul>
             </div>
