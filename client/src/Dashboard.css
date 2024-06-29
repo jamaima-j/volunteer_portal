@@ -1,6 +1,6 @@
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #0c469e; 
+    background-color: #f0f2f5;
     margin: 0;
     padding: 0;
   }
@@ -11,7 +11,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-color: #0c469e;
+    background-color: #f0f2f5;
   }
   
   .dashboard {

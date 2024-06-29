@@ -21,30 +21,32 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard">
-      <nav className="navbar">
-        <ul>
-          <li
-            className={activeTab === 'events' ? 'active' : ''}
-            onClick={() => setActiveTab('events')}
-          >
-            Upcoming Events
-          </li>
-          <li
-            className={activeTab === 'profile' ? 'active' : ''}
-            onClick={() => setActiveTab('profile')}
-          >
-            Profile
-          </li>
-          <li
-            className={activeTab === 'notifications' ? 'active' : ''}
-            onClick={() => setActiveTab('notifications')}
-          >
-            Notifications
-          </li>
-        </ul>
-      </nav>
-      <div className="tab-content">{renderTabContent()}</div>
+    <div className="dashboard-page">
+      <div className="dashboard">
+        <nav className="navbar">
+          <ul>
+            <li
+              className={activeTab === 'events' ? 'active' : ''}
+              onClick={() => setActiveTab('events')}
+            >
+              Upcoming Events
+            </li>
+            <li
+              className={activeTab === 'profile' ? 'active' : ''}
+              onClick={() => setActiveTab('profile')}
+            >
+              Profile
+            </li>
+            <li
+              className={activeTab === 'notifications' ? 'active' : ''}
+              onClick={() => setActiveTab('notifications')}
+            >
+              Notifications
+            </li>
+          </ul>
+        </nav>
+        <div className="tab-content">{renderTabContent()}</div>
+      </div>
     </div>
   );
 };

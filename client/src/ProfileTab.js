@@ -3,7 +3,7 @@ import React from 'react';
 const ProfileTab = () => {
   return (
     <div>
-      <h2>Profile</h2>
+      <h2>Volunteer History</h2>
       <table>
         <thead>
           <tr>
@@ -15,18 +15,18 @@ const ProfileTab = () => {
         <tbody>
           <tr>
             <td>Event 1</td>
-            <td>01/01/2024</td>
+            <td>06/28/2024</td>
             <td>Participated</td>
           </tr>
           <tr>
             <td>Event 2</td>
-            <td>02/01/2024</td>
-            <td>Missed</td>
+            <td>06/21/2024</td>
+            <td>Participated</td>
           </tr>
           <tr>
             <td>Event 3</td>
-            <td>03/01/2024</td>
-            <td>Participated</td>
+            <td>06/14/2024</td>
+            <td>Missed</td>
           </tr>
         </tbody>
       </table>
