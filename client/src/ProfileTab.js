@@ -1,8 +1,9 @@
 import React from 'react';
+import './ProfileTab.css';
 
 const ProfileTab = () => {
   return (
-    <div>
+    <div className="profile-tab">
       <h2>Volunteer History</h2>
       <table>
         <thead>

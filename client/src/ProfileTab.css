@@ -1,0 +1,40 @@
+.profile-tab {
+  background-color: #fff; 
+  color: #000; 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-tab h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #333;
+  color: #fff;
+}
+
+th, td {
+  border: 1px solid #555;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #444;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #555;
+}
+
+tr:nth-child(odd) {
+  background-color: #666;
+}

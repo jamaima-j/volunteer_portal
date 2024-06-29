@@ -1,19 +1,23 @@
 .notification {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .notification h3 {
-    margin: 0 0 5px 0;
-    font-size: 18px;
-    color: #007BFF;
-  }
-  
-  .notification p {
-    margin: 0;
-    font-size: 16px;
-  }
-  
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.notification h3 { /*added to target h3 bc it wasn't showing earlier */
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  color: #007BFF;
+}
+
+.notification p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.notifs-container h2 { /*added to target h2 bc it wasn't showing earlier */
+  color: black; 
+  margin-bottom: 20px;
+}

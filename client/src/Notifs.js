@@ -1,8 +1,9 @@
 import React from 'react';
+import './Notifs.css';
 
 const notifications = [
   { datetime: '2024-06-25T14:30:00', message: 'Reminder: [Event Name] starting now at [Event Location]' },
-  { datetime: '2024-06-25T13:00:00', message: 'Reminder: [Event Name] begins in 1 hour at [Event Location]' },
+  { datetime: '2024-06-25T13:30:00', message: 'Reminder: [Event Name] begins in 1 hour at [Event Location]' },
   { datetime: '2024-06-24T14:30:00', message: 'Reminder: [Event Name] tomorrow at [Event Time] at [Event Location]' },
 ];
 
@@ -14,7 +15,7 @@ const Notifs = () => {
   const sortedNotifications = sortNotificationsByDateTime(notifications);
 
   return (
-    <div>
+    <div className="notifs-container">
       <h2>Notifications</h2>
       {sortedNotifications.map((notification, index) => (
         <div key={index} className="notification">

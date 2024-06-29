@@ -54,7 +54,7 @@ const Login = () => {
         />
         <button onClick={handleLogin}>Login</button>
         {error && <p className="error">{error}</p>}
-        <p>Don't have an account? <a href="/register">Sign up here!</a></p>
+        <p className="register-link">Don't have an account? <a href="/register">Sign up here!</a></p>
       </div>
     </div>
   );
