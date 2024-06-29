@@ -20,7 +20,7 @@ const AdminPortal = () => {
   return (
     <div className="admin-portal">
       <div className="sidebar">
-        <h2>Admin Portal</h2>
+        <h2>Administrator</h2>
         <button className="tablink" onClick={(e) => openTab(e, 'Welcome')}>Welcome</button>
         <button className="tablink" onClick={(e) => openTab(e, 'EventManagement')}>Event Management Form</button>
         <button className="tablink" onClick={(e) => openTab(e, 'VolunteerMatching')}>Volunteer Matching Form</button>
@@ -94,6 +94,10 @@ const AdminPortal = () => {
               </div>
               <input type="submit" value="Submit" />
             </form>
+            <div className="card">
+              <h3>Volunteer has been matched to the following:</h3>
+              {/* Matched volunteer activities will be displayed here */}
+            </div>
           </div>
         </div>
 
