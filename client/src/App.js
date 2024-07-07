@@ -4,7 +4,8 @@ import Login from './Login';
 import Register from './Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
-import AdminPortal from './AdminPortal'
+import AdminPortal from './AdminPortal';
+import EventM from './EventM';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<AdminPortal />} />
+          <Route path="/events" element={<EventM />} /> {/* Add this line */}
           <Route path="/" element={<Login />} />
         </Routes>
       </div>

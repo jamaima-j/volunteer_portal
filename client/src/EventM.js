@@ -1,40 +1,17 @@
-// JavaScript for tab functionality
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-
-    // Hide all tab content
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Remove the background color of all tablinks/buttons
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].classList.remove("active");
-    }
-
-    // Show the specific tab content
-    document.getElementById(tabName).style.display = "block";
-
-    // Add an active class to the button that opened the tab
-    evt.currentTarget.classList.add("active");
-}
-
-// Default open the first tab
-document.getElementsByClassName("tablink")[0].click();
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 // Function to inject CSS styles dynamically
 function injectStyle(css) {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    if (style.styleSheet) {
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(css));
-    }
-    head.appendChild(style);
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+  head.appendChild(style);
 }
 
 // CSS styles
@@ -143,38 +120,212 @@ body {
 // Inject the CSS styles
 injectStyle(css);
 
-// Form validation for Event Management
-function validateEventForm() {
-    const eventName = document.getElementById('eventName').value;
-    const eventDescription = document.getElementById('eventDescription').value;
-    const location = document.getElementById('location').value;
-    const requiredSkills = document.getElementById('requiredSkills').selectedOptions;
-    const urgency = document.getElementById('urgency').value;
-    const eventDate = document.getElementById('eventDate').value;
+const EventM = () => {
+  const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5']);
+  const [events, setEvents] = useState([]);
+  const [activeTab, setActiveTab] = useState('Welcome');
 
-    if (eventName.length < 100) {
-        alert('Event Name must be at least 100 characters.');
-        return false;
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/events');
+      setEvents(response.data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
     }
-    if (!eventName || !eventDescription || !location || requiredSkills.length === 0 || !urgency || !eventDate) {
-        alert('Please fill out all required fields.');
-        return false;
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const newEvent = {
+      name: e.target.eventName.value,
+      description: e.target.eventDescription.value,
+      location: e.target.location.value,
+      skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
+      urgency: e.target.urgency.value,
+      date: e.target.eventDate.value,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:5000/events', newEvent);
+      setEvents([...events, response.data]);
+    } catch (error) {
+      console.error('Error adding event:', error);
     }
-    return true;
-}
+  };
 
-// Function to dynamically add skills to the dropdown menu
-function addSkillOption(skill) {
-    const requiredSkillsSelect = document.getElementById('requiredSkills');
-    const option = document.createElement('option');
-    option.value = skill;
-    option.textContent = skill;
-    requiredSkillsSelect.appendChild(option);
-}
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
 
-// Example of adding skills to the dropdown menu
-addSkillOption('Skill 1');
-addSkillOption('Skill 2');
-addSkillOption('Skill 3');
-addSkillOption('Skill 4');
-addSkillOption('Skill 5');
+  return (
+    <div className="event-management">
+      <div className="tabs">
+        <button className={`tablink ${activeTab === 'Welcome' ? 'active' : ''}`} onClick={() => handleTabClick('Welcome')}>Welcome</button>
+        <button className={`tablink ${activeTab === 'EventManagement' ? 'active' : ''}`} onClick={() => handleTabClick('EventManagement')}>Event Management Form</button>
+        <button className={`tablink ${activeTab === 'VolunteerMatching' ? 'active' : ''}`} onClick={() => handleTabClick('VolunteerMatching')}>Volunteer Matching Form</button>
+        <button className={`tablink ${activeTab === 'VolunteerHistory' ? 'active' : ''}`} onClick={() => handleTabClick('VolunteerHistory')}>Volunteer History</button>
+        <button className={`tablink ${activeTab === 'Notification' ? 'active' : ''}`} onClick={() => handleTabClick('Notification')}>Notification</button>
+      </div>
+
+      <div className="main-content">
+        {activeTab === 'Welcome' && (
+          <div id="Welcome" className="tabcontent">
+            <div className="card welcome-card">
+              <h3>Welcome Admin</h3>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'EventManagement' && (
+          <div id="EventManagement" className="tabcontent">
+            <div className="card">
+              <h3>Event Management Form</h3>
+              <form id="eventForm" onSubmit={handleFormSubmit}>
+                <div className="form-section">
+                  <label htmlFor="eventName">Event Name (100 characters, required):</label>
+                  <input type="text" id="eventName" name="eventName" maxLength="100" required />
+                </div>
+                <div className="form-section">
+                  <label htmlFor="eventDescription">Event Description (required):</label>
+                  <textarea id="eventDescription" name="eventDescription" required></textarea>
+                </div>
+                <div className="form-section">
+                  <label htmlFor="location">Location (required):</label>
+                  <textarea id="location" name="location" required></textarea>
+                </div>
+                <div className="form-section">
+                  <label htmlFor="requiredSkills">Required Skills (required):</label>
+                  <select id="requiredSkills" name="requiredSkills" className="multi-select" multiple required>
+                    {skills.map((skill, index) => (
+                      <option key={index} value={skill}>{skill}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-section">
+                  <label htmlFor="urgency">Urgency (required):</label>
+                  <select id="urgency" name="urgency" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div className="form-section">
+                  <label htmlFor="eventDate">Event Date (required):</label>
+                  <input type="date" id="eventDate" name="eventDate" required />
+                </div>
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'VolunteerMatching' && (
+          <div id="VolunteerMatching" className="tabcontent">
+            <div className="card">
+              <h3>Volunteer Matching Form</h3>
+              <form onSubmit={handleFormSubmit}>
+                <div className="form-section">
+                  <label htmlFor="volunteerName">Volunteer Name:</label>
+                  <input type="text" id="volunteerName" name="volunteerName" maxLength="100" required />
+                </div>
+                <div className="form-section">
+                  <label htmlFor="volunteerSkills">Volunteer Skills:</label>
+                  <input type="text" id="volunteerSkills" name="volunteerSkills" maxLength="100" required />
+                </div>
+                <div className="form-section">
+                  <label htmlFor="volunteerAvailability">Volunteer Availability:</label>
+                  <input type="text" id="volunteerAvailability" name="volunteerAvailability" maxLength="100" required />
+                </div>
+                <input type="submit" value="Submit" />
+              </form>
+              <div className="card">
+                <h3>Volunteer has been matched to the following:</h3>
+                {/* Matched volunteer activities will be displayed here */}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'VolunteerHistory' && (
+          <div id="VolunteerHistory" className="tabcontent">
+            <div className="card">
+              <h3>Volunteer History</h3>
+              <p>Here you can view the history of volunteer activities.</p>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Event Name</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Required Skills</th>
+                    <th>Urgency</th>
+                    <th>Event Date</th>
+                    <th>Participation Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {events.map(event => (
+                    <tr key={event._id}>
+                      <td>{event.name}</td>
+                      <td>{event.description}</td>
+                      <td>{event.location}</td>
+                      <td>{event.skills.join(', ')}</td>
+                      <td>{event.urgency}</td>
+                      <td>{new Date(event.date).toLocaleDateString()}</td>
+                      <td>Participated</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Notification' && (
+          <div id="Notification" className="tabcontent">
+            <div className="card">
+              <h3>Notification System</h3>
+              <div className="notification-section">
+                <h4>New Event Assignments</h4>
+                <ul className="notification-list">
+                  <li className="message-item">
+                    <input type="checkbox" id="newAssignment1" />
+                    <label htmlFor="newAssignment1">New Assignment: Park Clean-Up</label>
+                  </li>
+                </ul>
+              </div>
+              <div className="notification-section">
+                <h4>Updates</h4>
+                <ul className="notification-list">
+                  <li className="message-item">
+                    <input type="checkbox" id="update1" />
+                    <label htmlFor="update1">Update: Event location changed to Community Center</label>
+                  </li>
+                </ul>
+              </div>
+              <div className="notification-section">
+                <h4>Reminders</h4>
+                <ul className="notification-list">
+                  <li className="message-item">
+                    <input type="checkbox" id="reminder1" />
+                    <label htmlFor="reminder1">Reminder: Submit volunteer hours for June</label>
+                  </li>
+                </ul>
+              </div>
+              <div id="popup" className="popup">
+                <p>Reminder: You have pending tasks to complete!</p>
+                <button className="close-btn" onClick={() => document.getElementById('popup').style.display = 'none'}>Close</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default EventM;

@@ -1,8 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './AdminPortal.css';
 
 const AdminPortal = () => {
   const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4']); // List of skills
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/events');
+      setEvents(response.data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const newEvent = {
+      name: e.target.eventName.value,
+      description: e.target.eventDescription.value,
+      location: e.target.location.value,
+      skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
+      urgency: e.target.urgency.value,
+      date: e.target.eventDate.value,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:5000/events', newEvent);
+      setEvents([...events, response.data]);
+    } catch (error) {
+      console.error('Error adding event:', error);
+    }
+  };
 
   const openTab = (evt, tabName) => {
     const tabcontent = document.getElementsByClassName('tabcontent');
@@ -56,7 +90,7 @@ const AdminPortal = () => {
         <div id="EventManagement" className="tabcontent">
           <div className="card">
             <h3>Event Management Form</h3>
-            <form id="eventForm" onSubmit={(e) => e.preventDefault()}>
+            <form id="eventForm" onSubmit={handleFormSubmit}>
               <div className="form-section">
                 <label htmlFor="eventName">Event Name (100 characters, required):</label>
                 <input type="text" id="eventName" name="eventName" maxLength="100" required />
@@ -136,16 +170,17 @@ const AdminPortal = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Dynamic rows will be populated here */}
-                <tr>
-                  <td>Community Clean-Up</td>
-                  <td>Cleaning up the local park</td>
-                  <td>Central Park</td>
-                  <td>Cleaning, Teamwork</td>
-                  <td>High</td>
-                  <td>2024-07-15</td>
-                  <td>Participated</td>
-                </tr>
+                {events.map(event => (
+                  <tr key={event._id}>
+                    <td>{event.name}</td>
+                    <td>{event.description}</td>
+                    <td>{event.location}</td>
+                    <td>{event.skills.join(', ')}</td>
+                    <td>{event.urgency}</td>
+                    <td>{new Date(event.date).toLocaleDateString()}</td>
+                    <td>Participated</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
