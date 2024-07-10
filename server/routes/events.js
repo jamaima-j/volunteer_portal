@@ -1,47 +1,38 @@
-// server/routes/events.js
 const express = require('express');
 const router = express.Router();
-const Event = require('../models/event');
 
-// Get all events
-router.get('/', async (req, res) => {
-  try {
-    const events = await Event.find();
-    res.json(events);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+let events = [
+  { id: 1, name: 'Event 1', description: 'Description 1', location: 'Location 1', skills: ['Skill 1'], urgency: 'low', date: '2023-07-09' },
+  //add more events as needed
+];
+
+//get all events with get
+router.get('/', (req, res) => {
+  res.json(events);
+});
+
+//create new event
+router.post('/', (req, res) => {
+  const newEvent = { ...req.body, id: events.length + 1 };
+  events.push(newEvent);
+  res.status(201).json(newEvent);
+});
+
+//update event
+router.put('/:id', (req, res) => {
+  const eventIndex = events.findIndex(event => event.id == req.params.id);
+  if (eventIndex !== -1) {
+    events[eventIndex] = { ...events[eventIndex], ...req.body };
+    res.json(events[eventIndex]);
+  } else {
+    res.status(404).json({ message: 'Event not found' });
   }
 });
 
-// Create a new event
-router.post('/', async (req, res) => {
-  const event = new Event(req.body);
-  try {
-    const newEvent = await event.save();
-    res.status(201).json(newEvent);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// Update an event
-router.put('/:id', async (req, res) => {
-  try {
-    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updatedEvent);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// Delete an event
-router.delete('/:id', async (req, res) => {
-  try {
-    await Event.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Event deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+//delete event
+router.delete('/:id', (req, res) => {
+  events = events.filter(event => event.id != req.params.id);
+  res.json({ message: 'Event deleted' });
 });
 
 module.exports = router;

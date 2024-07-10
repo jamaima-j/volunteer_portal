@@ -16,7 +16,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<AdminPortal />} />
-          <Route path="/events" element={<EventM />} /> {/* Add this line */}
+          <Route path="/events" element={<EventM />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Register.css';
 
 const Register = () => {
@@ -7,14 +8,9 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState([]);
-  const [registeredUsers, setRegisteredUsers] = useState([
-    { email: 'omarwabbouchi@gmail.com', password: 'omar', accountType: 'admin' },
-    { email: 'jamaimajan@gmail.com', password: 'jamaima1234', accountType: 'admin'},
-    { email: 'leannalkhateeb@gmail.com', password: 'lilly1234', accountType: 'admin'} //hardcoded in for now
-  ]);
   const navigate = useNavigate();
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     const validationErrors = [];
 
     if (!email || !password || !confirmPassword) {
@@ -33,34 +29,25 @@ const Register = () => {
       validationErrors.push('Password must be at least 8 characters long.');
     }
 
-    const userExists = registeredUsers.find(user => user.email === email);
-
-    if (userExists) {
-      validationErrors.push('User already exists. Please login.');
-    }
-
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
       return;
-    } else {
-      const newUser = { email, password, accountType: 'volunteer', profileComplete: false };
-      setRegisteredUsers([...registeredUsers, newUser]);
-      setErrors([]);
-      console.log('Registered successfully');
-      sendEmailNotification(email);
-      navigate('/profile');
     }
 
+    try {
+      const response = await axios.post('http://localhost:5001/auth/register', { email, password, accountType: 'volunteer' }); //also running on 5001 bc my computer won't run on 5000
 
+      setErrors([]);
+      console.log('Registered successfully');
+      navigate('/profile');
+    } catch (err) {
+      setErrors(['User already exists. Please login.']);
+    }
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //use regex to check to make sure email is valid and contains an '@' and a '.'
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //email validation regex, checks for @ and . in email
     return emailRegex.test(email);
-  };
-
-  const sendEmailNotification = (email) => {
-    console.log(`Sending email notification to ${email}`); //temporary, will fix with backend services when we get there
   };
 
   return (

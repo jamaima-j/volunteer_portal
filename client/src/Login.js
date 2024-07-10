@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
 
 const Login = () => {
@@ -8,22 +9,12 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  //hard-coded temporary valid login credentials, will change later on
-  const validCredentials = [
-    { email: 'omarwabbouchi@gmail.com', password: 'omaromar', profileComplete: true, accountType: 'admin' },
-    { email: 'jamaimajan@gmail.com', password: 'jamaima1234', profileComplete: true, accountType: 'admin' },
-    { email: 'leannalkhateeb@gmail.com', password: 'lilly1234', profileComplete: true, accountType: 'admin'}, 
-    { email: 'test@test.com', password: 'testtest', profileComplete: false, accountType: 'volunteer'}
-  ];
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:5001/auth/login', { email, password }); //running on 5001 bc my computer won't run on 5000
 
-  const handleLogin = () => {
-    const user = validCredentials.find(
-      (user) => user.email === email && user.password === password
-    );
+      const user = response.data;
 
-    if (!user) {
-      setError('Invalid login. Please check your email and password.');
-    } else {
       setError('');
       console.log('Logged in successfully');
       if (user.accountType === 'admin') {
@@ -33,6 +24,8 @@ const Login = () => {
       } else {
         navigate('/profile');
       }
+    } catch (err) {
+      setError('Invalid login. Please check your email and password.');
     }
   };
 

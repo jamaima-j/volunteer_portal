@@ -1,26 +1,25 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
+const PORT = 5001; //running on 5001 bc my computer won't run on 5000
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+//imports routes
+const eventsRoute = require('./routes/events');
+const registrationRoute = require('./routes/registration');
+const loginRoute = require('./routes/login');
 
-// Use routes
-app.use('/admin/events', require('./routes/events'));
+//uses routes
+app.use('/admin/events', eventsRoute);
+app.use('/auth', registrationRoute);
+app.use('/auth', loginRoute);
 
-// Test route
+//tests route, should see correct port if running
 app.get('/test', (req, res) => {
   res.send('Server is running');
 });
 
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
