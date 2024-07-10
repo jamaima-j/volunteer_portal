@@ -23,6 +23,7 @@ const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
 const profileRoute = require('./routes/profile'); 
 const matchingRoute = require('./routes/matching')(volunteers, events);
+const volunteerHistoryRoute = require('./routes/volunteerHistory')(volunteers, events);
 
 
 // Use routes
@@ -31,6 +32,7 @@ app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
 app.use('/profile', profileRoute); 
 app.use('/matching', matchingRoute);
+app.use('/volunteerHistory', volunteerHistoryRoute);
 
 // Test route
 app.get('/test', (req, res) => {

@@ -6,12 +6,14 @@ const AdminPortal = () => {
   const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4']); // List of skills
   const [events, setEvents] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
+  const [volunteerHistory, setVolunteerHistory] = useState([]);
   const [selectedVolunteer, setSelectedVolunteer] = useState('');
   const [selectedEvent, setSelectedEvent] = useState('');
 
   useEffect(() => {
     fetchVolunteers();
     fetchEvents();
+    fetchVolunteerHistory();
   }, []);
 
   const fetchVolunteers = async () => {
@@ -29,6 +31,15 @@ const AdminPortal = () => {
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
+    }
+  };
+
+  const fetchVolunteerHistory = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/volunteerHistory');
+      setVolunteerHistory(response.data);
+    } catch (error) {
+      console.error('Error fetching volunteer history:', error);
     }
   };
 
@@ -163,7 +174,7 @@ const AdminPortal = () => {
                 <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
                   <option value="">Select Volunteer</option>
                   {volunteers.map((volunteer) => (
-                    <option key={volunteer._id} value={volunteer._id}>{volunteer.name}</option>
+                    <option key={volunteer.id} value={volunteer.id}>{volunteer.name}</option>
                   ))}
                 </select>
               </div>
@@ -172,16 +183,12 @@ const AdminPortal = () => {
                 <select id="eventSelect" onChange={(e) => setSelectedEvent(e.target.value)} required>
                   <option value="">Select Event</option>
                   {events.map((event) => (
-                    <option key={event._id} value={event._id}>{event.name}</option>
+                    <option key={event.id} value={event.id}>{event.name}</option>
                   ))}
                 </select>
               </div>
               <input type="submit" value="Match" />
             </form>
-            <div className="card">
-              <h3>Volunteer has been matched to the following:</h3>
-              {/* Matched volunteer activities will be displayed here */}
-            </div>
           </div>
         </div>
 
@@ -192,6 +199,7 @@ const AdminPortal = () => {
             <table className="table">
               <thead>
                 <tr>
+                  <th>Volunteer Name</th>
                   <th>Event Name</th>
                   <th>Description</th>
                   <th>Location</th>
@@ -202,19 +210,20 @@ const AdminPortal = () => {
                 </tr>
               </thead>
               <tbody>
-                {events.map(event => (
-                  <tr key={event.id}>
-                    <td>{event.name}</td>
-                    <td>{event.description}</td>
-                    <td>{event.location}</td>
-                    <td>{event.skills.join(', ')}</td>
-                    <td>{event.urgency}</td>
-                    <td>{new Date(event.date).toLocaleDateString()}</td>
-                    <td>Participated</td>
+                {volunteerHistory.map((entry, index) => (
+                  <tr key={index}>
+                    <td>{entry.volunteerName}</td>
+                    <td>{entry.eventName}</td>
+                    <td>{entry.description}</td>
+                    <td>{entry.location}</td>
+                    <td>{entry.requiredSkills}</td>
+                    <td>{entry.urgency}</td>
+                    <td>{new Date(entry.date).toLocaleDateString()}</td>
+                    <td>{entry.participationStatus}</td>
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
           </div>
         </div>
 
