@@ -1,158 +1,166 @@
-html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  .admin-portal {
-    display: flex;
-    height: 100%;
-  }
-  
-  .sidebar {
-    width: 20%;
-    background-color: #3a3f51; /* Darker shade to match the purple theme */
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar h2 {
-    text-align: center;
-    color: white;
-  }
-  
-  .tablink {
-    display: block;
-    background-color: #2A5788; /* Purple theme */
-    color: white;
-    padding: 10px;
-    text-align: left;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-decoration: none;
-    margin-bottom: 5px;
-    border-radius: 3px;
-  }
-  
-  .tablink:hover {
-    background-color: #204065; /* Slightly darker purple on hover */
-  }
-  
-  .tablink.active {
-    background-color: #0C2646; /* Darkest purple for active tab */
-  }
-  
-  .main-content {
-    flex-grow: 1;
-    padding: 20px;
-    background: linear-gradient(90deg, #0C2646 0%, #204065 60%, #2A5788 100%);
-    color: white;
-    height: 100%;
-    overflow-y: auto;
-  }
-  
-  .tabcontent {
-    display: none;
-    height: 100%;
-  }
-  
-  .tabcontent .card {
-    background: white;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    margin-bottom: 20px;
-    color: black;
-  }
-  
-  .welcome-card {
-    text-align: center;
-  }
-  
-  .form-section {
-    margin-bottom: 15px;
-  }
-  
-  .form-section label {
-    display: block;
-    margin-bottom: 5px;
-    color: black;
-  }
-  
-  .form-section input,
-  .form-section textarea,
-  .form-section select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  .form-section .multi-select {
-    height: 100px;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .table th,
-  .table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .table th {
-    background-color: #f2f2f2;
-  }
-  
-  .notification-section {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    background: #fafafa;
-    color: black;
-  }
-  
-  .notification-section h4 {
-    margin-top: 0;
-  }
-  
-  .notification-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .notification-list .message-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .notification-list .message-item input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  .popup {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: none;
-  }
-  
-  .close-btn {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-    margin-top: 10px;
-  }
-  
+.admin-portal {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #2e3a56;
+  color: white;
+  position: fixed;
+  height: 100vh;
+  padding-top: 20px;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tablink {
+  display: block;
+  background-color: #555;
+  color: white;
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  transition: 0.3s;
+  text-align: left;
+}
+
+.tablink:hover,
+.tablink.active {
+  background-color: #777;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  width: calc(100% - 250px);
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.tabcontent {
+  display: none;
+}
+
+.tabcontent.active {
+  display: block;
+}
+
+.card {
+  background-color: #252a41;
+  border: 1px solid #444c6b;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.card label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.card input[type="text"],
+.card textarea,
+.card select,
+.card input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #444c6b;
+  border-radius: 5px;
+  background-color: #1b1e2f;
+  color: white;
+  box-sizing: border-box;
+}
+
+.card input[type="submit"] {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.card input[type="submit"]:hover {
+  background-color: #777;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.notification-section {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background: #fafafa;
+  color: black;
+}
+
+.notification-section h4 {
+  margin-top: 0;
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+}
+
+.notification-list .message-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.notification-list .message-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.popup {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}
+
+.close-btn {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 10px;
+}

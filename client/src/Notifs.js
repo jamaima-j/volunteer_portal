@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Notifs.css';
 
-const notifications = [
-  { datetime: '2024-06-25T14:30:00', message: 'Reminder: [Event Name] starting now at [Event Location]' },
-  { datetime: '2024-06-25T13:30:00', message: 'Reminder: [Event Name] begins in 1 hour at [Event Location]' },
-  { datetime: '2024-06-24T14:30:00', message: 'Reminder: [Event Name] tomorrow at [Event Time] at [Event Location]' },
-];
-
-const sortNotificationsByDateTime = (notifications) => {
-  return notifications.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
-};
-
 const Notifs = () => {
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/notifications');
+      setNotifications(response.data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const sortNotificationsByDateTime = (notifications) => {
+    return notifications.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+  };
+
   const sortedNotifications = sortNotificationsByDateTime(notifications);
 
   return (

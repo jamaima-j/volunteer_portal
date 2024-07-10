@@ -3,10 +3,11 @@ import axios from 'axios';
 import './AdminPortal.css';
 
 const AdminPortal = () => {
-  const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4']); // List of skills
+  const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4']);
   const [events, setEvents] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
   const [volunteerHistory, setVolunteerHistory] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [selectedVolunteer, setSelectedVolunteer] = useState('');
   const [selectedEvent, setSelectedEvent] = useState('');
 
@@ -14,6 +15,7 @@ const AdminPortal = () => {
     fetchVolunteers();
     fetchEvents();
     fetchVolunteerHistory();
+    fetchNotifications();
   }, []);
 
   const fetchVolunteers = async () => {
@@ -40,6 +42,15 @@ const AdminPortal = () => {
       setVolunteerHistory(response.data);
     } catch (error) {
       console.error('Error fetching volunteer history:', error);
+    }
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/notifications');
+      setNotifications(response.data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
     }
   };
 
@@ -216,14 +227,14 @@ const AdminPortal = () => {
                     <td>{entry.eventName}</td>
                     <td>{entry.description}</td>
                     <td>{entry.location}</td>
-                    <td>{entry.requiredSkills}</td>
+                    <td>{entry.requiredSkills.join(', ')}</td>
                     <td>{entry.urgency}</td>
                     <td>{new Date(entry.date).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
                   </tr>
                 ))}
               </tbody>
-              </table>
+            </table>
           </div>
         </div>
 
@@ -233,28 +244,34 @@ const AdminPortal = () => {
             <div className="notification-section">
               <h4>New Event Assignments</h4>
               <ul className="notification-list">
-                <li className="message-item">
-                  <input type="checkbox" id="newAssignment1" />
-                  <label htmlFor="newAssignment1">New Assignment: Park Clean-Up</label>
-                </li>
+                {notifications.map((notification, index) => (
+                  <li key={index} className="message-item">
+                    <input type="checkbox" id={`newAssignment${index}`} />
+                    <label htmlFor={`newAssignment${index}`}>{notification.message}</label>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="notification-section">
               <h4>Updates</h4>
               <ul className="notification-list">
-                <li className="message-item">
-                  <input type="checkbox" id="update1" />
-                  <label htmlFor="update1">Update: Event location changed to Community Center</label>
-                </li>
+                {notifications.map((notification, index) => (
+                  <li key={index} className="message-item">
+                    <input type="checkbox" id={`update${index}`} />
+                    <label htmlFor={`update${index}`}>{notification.message}</label>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="notification-section">
               <h4>Reminders</h4>
               <ul className="notification-list">
-                <li className="message-item">
-                  <input type="checkbox" id="reminder1" />
-                  <label htmlFor="reminder1">Reminder: Submit volunteer hours for June</label>
-                </li>
+                {notifications.map((notification, index) => (
+                  <li key={index} className="message-item">
+                    <input type="checkbox" id={`reminder${index}`} />
+                    <label htmlFor={`reminder${index}`}>{notification.message}</label>
+                  </li>
+                ))}
               </ul>
             </div>
             <div id="popup" className="popup">
