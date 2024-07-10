@@ -2,22 +2,24 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = 5001; //running on 5001 bc my computer won't run on 5000
+const PORT = 5000;
 
 app.use(express.json());
 app.use(cors());
 
-//imports routes
+// Import routes
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
+const profileRoute = require('./routes/profile'); 
 
-//uses routes
+// Use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
+app.use('/profile', profileRoute); 
 
-//tests route, should see correct port if running
+// Test route
 app.get('/test', (req, res) => {
   res.send('Server is running');
 });

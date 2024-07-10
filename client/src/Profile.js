@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Profile.css';
 
 const states = [
@@ -65,7 +66,7 @@ const days = [
   'Placeholder Date 1', 'Placeholder Date 2', 'Placeholder Date 3',
 ];
 
-const Profile = () => {
+const Profile = ({ email }) => {
   const [fullName, setFullName] = useState('');
   const [address1, setAddress1] = useState('');
   const [address2, setAddress2] = useState('');
@@ -76,9 +77,12 @@ const Profile = () => {
   const [preferences, setPreferences] = useState('');
   const [availability, setAvailability] = useState([]);
   const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmission = () => {
+  const handleSubmission = async (e) => {
+    e.preventDefault();
+
     const validationErrors = [];
 
     if (!fullName || !address1 || !city || !state || !zip) {
@@ -104,10 +108,28 @@ const Profile = () => {
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
       return;
-    } else {
-      setErrors([]);
-      console.log('Profile saved successfully');
+    }
+
+    try {
+      const response = await axios.put('http://localhost:5000/profile/update', {
+        email,
+        fullName,
+        address1,
+        address2,
+        city,
+        state,
+        zip,
+        selectedSkills,
+        preferences,
+        availability
+      });
+
+      setMessage('Profile updated successfully');
+      console.log(response.data);
       navigate('/dashboard');
+    } catch (err) {
+      setMessage('Error updating profile');
+      console.error(err);
     }
   };
 
@@ -142,64 +164,66 @@ const Profile = () => {
     <div className="profile-page">
       <div className="form-container">
         <h2>Complete Your Profile</h2>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Address 1"
-          value={address1}
-          onChange={(e) => setAddress1(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Address 2 (optional)"
-          value={address2}
-          onChange={(e) => setAddress2(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <select value={state} onChange={(e) => setState(e.target.value)}>
-          <option value="">Select State</option>
-          {states.map((state) => (
-            <option key={state.code} value={state.code}>
-              {state.name}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="Zip Code"
-          value={zip}
-          onChange={(e) => setZip(e.target.value)}
-        />
-        <select multiple={true} value={selectedSkills} onChange={handleSkillsChange}>
-          {skills.map((skill, index) => (
-            <option key={index} value={skill}>
-              {skill}
-            </option>
-          ))}
-        </select>
-        <textarea
-          placeholder="Preferences (optional)"
-          value={preferences}
-          onChange={(e) => setPreferences(e.target.value)}
-        />
-        <select multiple={true} value={availability} onChange={handleAvailabilityChange}>
-          {days.map((day, index) => (
-            <option key={index} value={day}>
-              {day}
-            </option>
-          ))}
-        </select>
-        <button onClick={handleSubmission}>Save Profile</button>
+        <form onSubmit={handleSubmission}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Address 1"
+            value={address1}
+            onChange={(e) => setAddress1(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Address 2 (optional)"
+            value={address2}
+            onChange={(e) => setAddress2(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <select value={state} onChange={(e) => setState(e.target.value)}>
+            <option value="">Select State</option>
+            {states.map((state) => (
+              <option key={state.code} value={state.code}>
+                {state.name}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            placeholder="Zip Code"
+            value={zip}
+            onChange={(e) => setZip(e.target.value)}
+          />
+          <select multiple={true} value={selectedSkills} onChange={handleSkillsChange}>
+            {skills.map((skill, index) => (
+              <option key={index} value={skill}>
+                {skill}
+              </option>
+            ))}
+          </select>
+          <textarea
+            placeholder="Preferences (optional)"
+            value={preferences}
+            onChange={(e) => setPreferences(e.target.value)}
+          />
+          <select multiple={true} value={availability} onChange={handleAvailabilityChange}>
+            {days.map((day, index) => (
+              <option key={index} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
+          <button type="submit">Save Profile</button>
+        </form>
         {errors.length > 0 && (
           <div className="error">
             {errors.map((error, index) => (
@@ -207,6 +231,7 @@ const Profile = () => {
             ))}
           </div>
         )}
+        {message && <p className="message">{message}</p>}
       </div>
     </div>
   );

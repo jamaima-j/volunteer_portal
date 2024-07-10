@@ -5,10 +5,9 @@ const router = express.Router();
 let users = [
   { email: 'omarwabbouchi@gmail.com', password: 'omaromar', profileComplete: true, accountType: 'admin' },
   { email: 'jamaimajan@gmail.com', password: 'jamaima1234', profileComplete: true, accountType: 'admin' },
-  { email: 'leannalkhateeb@gmail.com', password: 'lilly1234', profileComplete: true, accountType: 'admin'}, 
-  { email: 'test@test.com', password: 'testtest', profileComplete: false, accountType: 'volunteer'}, 
-  { email: 'test2@test.com', password: 'testtest', profileComplete: true, accountType: 'volunteer'}
-  
+  { email: 'leannalkhateeb@gmail.com', password: 'lilly1234', profileComplete: true, accountType: 'admin' }, 
+  { email: 'test@test.com', password: 'testtest', profileComplete: false, accountType: 'volunteer' }, 
+  { email: 'test2@test.com', password: 'testtest', profileComplete: true, accountType: 'volunteer' }
 ];
 
 //login endpoint

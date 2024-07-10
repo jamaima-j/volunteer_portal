@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/auth/login', { email, password }); //running on 5001 bc my computer won't run on 5000
+      const response = await axios.post('http://localhost:5000/auth/login', { email, password });
 
       const user = response.data;
 

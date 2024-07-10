@@ -12,7 +12,7 @@ const AdminPortal = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/admin/events'); //running on port 5001 because my computer will not run on 5000 for some reason
+      const response = await axios.get('http://localhost:5000/admin/events'); 
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -31,7 +31,7 @@ const AdminPortal = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5001/admin/events', newEvent); //same thing
+      const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
       setEvents([...events, response.data]);
     } catch (error) {
       console.error('Error adding event:', error);

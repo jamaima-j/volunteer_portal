@@ -35,7 +35,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/auth/register', { email, password, accountType: 'volunteer' }); //also running on 5001 bc my computer won't run on 5000
+      const response = await axios.post('http://localhost:5000/auth/register', { email, password, accountType: 'volunteer' });
 
       setErrors([]);
       console.log('Registered successfully');
@@ -46,7 +46,7 @@ const Register = () => {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //email validation regex, checks for @ and . in email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // email validation regex, checks for @ and . in email
     return emailRegex.test(email);
   };
 
