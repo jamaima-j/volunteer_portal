@@ -89,28 +89,25 @@ const Profile = ({ email }) => {
       validationErrors.push('Please fill in all required fields.');
     }
 
-    if (fullName.length > 50) {
-      validationErrors.push('Full name must be 50 characters or less.');
-    }
-
-    if (address1.length > 100) {
-      validationErrors.push('Address may not be longer than 100 characters.');
-    }
-
-    if (city.length > 100) {
-      validationErrors.push('City name may not be longer than 100 characters.');
-    }
-
-    if (!validateZip(zip)) {
-      validationErrors.push('Zip code must be either 5 or 9 characters long and contain only numbers.');
-    }
-
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
       return;
     }
 
     try {
+      console.log('Sending request to update profile with:', {
+        email,
+        fullName,
+        address1,
+        address2,
+        city,
+        state,
+        zip,
+        selectedSkills,
+        preferences,
+        availability
+      });
+
       const response = await axios.put('http://localhost:5000/profile/update', {
         email,
         fullName,
@@ -125,11 +122,11 @@ const Profile = ({ email }) => {
       });
 
       setMessage('Profile updated successfully');
-      console.log(response.data);
+      console.log('Response from server:', response.data);
       navigate('/dashboard');
     } catch (err) {
       setMessage('Error updating profile');
-      console.error(err);
+      console.error('Error details:', err.response || err.message || err);
     }
   };
 

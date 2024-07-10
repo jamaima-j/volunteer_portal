@@ -8,30 +8,30 @@ let users = [
   { email: 'test@test.com', password: 'testtest', profileComplete: false, accountType: 'volunteer', fullName: '', address1: '', address2: '', city: '', state: '', zip: '', selectedSkills: [], preferences: '', availability: [] }
 ];
 
-// Update profile endpoint
+//profile endpoint
 router.put('/update', (req, res) => {
   const { email, fullName, address1, address2, city, state, zip, selectedSkills, preferences, availability } = req.body;
-  const userIndex = users.findIndex(u => u.email === email);
+  let user = users.find(u => u.email === email);
 
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'User not found.' });
+//this mimics database adding functionality
+  if (!user) {
+    //creates new user instead of returning error as before
+    user = { email, password: '', profileComplete: false, accountType: 'volunteer' };
+    users.push(user); //adds user to fake db
   }
 
-  users[userIndex] = {
-    ...users[userIndex],
-    fullName,
-    address1,
-    address2,
-    city,
-    state,
-    zip,
-    selectedSkills,
-    preferences,
-    availability,
-    profileComplete: true
-  };
+  user.fullName = fullName;
+  user.address1 = address1;
+  user.address2 = address2;
+  user.city = city;
+  user.state = state;
+  user.zip = zip;
+  user.selectedSkills = selectedSkills;
+  user.preferences = preferences;
+  user.availability = availability;
+  user.profileComplete = true;
 
-  return res.json({ message: 'Profile updated successfully', user: users[userIndex] });
+  return res.json({ message: 'Profile updated successfully', user });
 });
 
 module.exports = router;
