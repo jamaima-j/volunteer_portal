@@ -1,4 +1,3 @@
-// server/index.js
 const express = require('express');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
@@ -9,7 +8,19 @@ const PORT = 5000;
 app.use(express.json());
 app.use(cors());
 
-// In-memory data storage with initial values
+//import routes
+const eventsRoute = require('./routes/events');
+const registrationRoute = require('./routes/registration');
+const loginRoute = require('./routes/login');
+const profileRoute = require('./routes/profile');
+
+//define and use routes
+app.use('/admin/events', eventsRoute);
+app.use('/auth', registrationRoute);
+app.use('/auth', loginRoute);
+app.use('/profile', profileRoute);
+
+//hard-coded in-memory storage
 const volunteers = [
   { id: uuidv4(), name: "John Doe", skills: ["Skill 1", "Skill 2"], availability: "Weekends", matchedEvents: [] },
   { id: uuidv4(), name: "Jane Smith", skills: ["Skill 3", "Skill 4"], availability: "Weekdays", matchedEvents: [] }
@@ -22,7 +33,7 @@ const events = [
 
 const notifications = [];
 
-// Routes
+//events routes
 app.get('/admin/events', (req, res) => {
   res.json(events);
 });
@@ -57,7 +68,7 @@ app.delete('/admin/events/:id', (req, res) => {
   res.json({ message: 'Event deleted' });
 });
 
-// Notification Routes
+//notification routes
 app.get('/notifications', (req, res) => {
   res.json(notifications);
 });

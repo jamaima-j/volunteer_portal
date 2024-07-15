@@ -16,7 +16,7 @@ const Login = () => {
       const user = response.data;
 
       setError('');
-      console.log('Logged in successfully');
+      console.log('Login successful');
       if (user.accountType === 'admin') {
         navigate('/admin');
       } else if (user.profileComplete) {
