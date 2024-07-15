@@ -3,12 +3,15 @@ import './Dashboard.css';
 import UpcomingEvents from './Upcoming_Events';
 import ProfileTab from './ProfileTab';
 import Notifications from './Notifs';
+import ProfileManagement from './ProfileManagement';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('events');
 
   const renderTabContent = () => {
     switch (activeTab) {
+      case 'profile-management':
+        return <ProfileManagement />;
       case 'events':
         return <UpcomingEvents />;
       case 'profile':
@@ -25,6 +28,12 @@ const Dashboard = () => {
       <div className="dashboard">
         <nav className="navbar">
           <ul>
+          <li
+              className={activeTab === 'profile-management' ? 'active' : ''}
+              onClick={() => setActiveTab('profile-management')}
+            >
+              Profile Management
+            </li>
             <li
               className={activeTab === 'events' ? 'active' : ''}
               onClick={() => setActiveTab('events')}

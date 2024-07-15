@@ -14,13 +14,13 @@ const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
 const profileRoute = require('./routes/profile');
 
-//define and use routes
+//use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
 app.use('/profile', profileRoute);
 
-//hard-coded in-memory storage
+//in-memory data storage with hard-coded values
 const volunteers = [
   { id: uuidv4(), name: "John Doe", skills: ["Skill 1", "Skill 2"], availability: "Weekends", matchedEvents: [] },
   { id: uuidv4(), name: "Jane Smith", skills: ["Skill 3", "Skill 4"], availability: "Weekdays", matchedEvents: [] }
@@ -68,7 +68,7 @@ app.delete('/admin/events/:id', (req, res) => {
   res.json({ message: 'Event deleted' });
 });
 
-//notification routes
+//notifications routes
 app.get('/notifications', (req, res) => {
   res.json(notifications);
 });
