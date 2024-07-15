@@ -25,7 +25,7 @@ router.put('/update', (req, res) => {
   if (!user) {
     user = { email, password: '', profileComplete: false, accountType: 'volunteer' };
     users.push(user);
-  }
+  } //comment
 
   user.fullName = fullName;
   user.address1 = address1;
