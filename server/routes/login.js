@@ -14,6 +14,8 @@ let users = [
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
 
+  console.log('Received login request:', { email, password });
+
   if (!email) {
     return res.status(400).json({ message: 'Email is required' });
   }
@@ -32,6 +34,8 @@ router.post('/login', (req, res) => {
   }
 
   const passwordMatch = bcrypt.compareSync(password, user.password);
+  console.log('Password match:', passwordMatch);
+
   if (!passwordMatch) {
     return res.status(401).json({ message: 'Invalid login. Please check your email and password.' });
   }

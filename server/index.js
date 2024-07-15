@@ -33,7 +33,7 @@ const events = [
 
 const notifications = [];
 
-//events routes
+//routes for events
 app.get('/admin/events', (req, res) => {
   res.json(events);
 });
@@ -68,7 +68,7 @@ app.delete('/admin/events/:id', (req, res) => {
   res.json({ message: 'Event deleted' });
 });
 
-//notifications routes
+//routes for notifications
 app.get('/notifications', (req, res) => {
   res.json(notifications);
 });
