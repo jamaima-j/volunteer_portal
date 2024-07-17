@@ -32,17 +32,17 @@ router.post('/register', (req, res) => {
     return res.status(400).json({ message: 'Invalid email format' });
   }
 
-  if (password.length < 6) {
-    return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+  if (password.length < 8) {
+    return res.status(400).json({ message: 'Password must be at least 8 characters long.' });
   }
 
-  const existingUser = users.find(user => user.email === email);
+  const existingUser = users.find(u => u.email === email);
   if (existingUser) {
     return res.status(409).json({ message: 'User already exists. Please login.' });
   }
 
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const newUser = { email, password: hashedPassword, accountType };
+  const newUser = { email, password: hashedPassword, profileComplete: false, accountType };
   users.push(newUser);
 
   return res.status(201).json({ message: 'User registered successfully', user: newUser });

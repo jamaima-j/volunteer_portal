@@ -9,6 +9,15 @@ let users = [
   { email: 'test2@test.com', password: 'testtest', profileComplete: true, accountType: 'volunteer', fullName: '', address1: '', address2: '', city: '', state: '', zip: '', selectedSkills: [], preferences: '', availability: [] }
 ];
 
+// Get profile by email
+router.get('/:email', (req, res) => {
+  const user = users.find(u => u.email === req.params.email);
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+  return res.json({ user });
+});
+
 //profile endpoint
 router.put('/update', (req, res) => {
   const { email, fullName, address1, address2, city, state, zip, selectedSkills, preferences, availability } = req.body;
