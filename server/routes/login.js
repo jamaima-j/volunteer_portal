@@ -40,7 +40,7 @@ router.post('/login', (req, res) => {
     return res.status(401).json({ message: 'Invalid login. Please check your email and password.' });
   }
 
-  return res.status(200).json({ message: 'Login successful', user });
+  return res.status(200).json({ message: 'Logged in successfully', user });
 });
 
 module.exports = router;
