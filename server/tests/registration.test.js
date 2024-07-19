@@ -60,7 +60,7 @@ describe('Registration', () => {
     expect(response.body.message).toBe('Invalid email format');
   });
 
-  it('should return error for password less than 6 characters', async () => {
+  it('should return error for password less than 8 characters', async () => {
     const response = await request(app).post('/auth/register').send({
       email: 'newuser@test.com',
       password: 'short',
@@ -68,7 +68,7 @@ describe('Registration', () => {
     });
 
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Password must be at least 6 characters long');
+    expect(response.body.message).toBe('Password must be at least 8 characters long.');
   });
 
   it('should return error for existing user', async () => {

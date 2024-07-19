@@ -14,7 +14,7 @@ describe('Login', () => {
     });
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Login successful');
+    expect(response.body.message).toBe('Logged in successfully');
     expect(response.body.user.email).toBe('test@test.com');
   });
 
