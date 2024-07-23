@@ -1,3 +1,4 @@
+// login.js
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -10,6 +11,7 @@ let users = [
   { email: 'test@test.com', password: bcrypt.hashSync('testtest', 10), profileComplete: false, accountType: 'volunteer' }, 
   { email: 'test2@test.com', password: bcrypt.hashSync('testtest', 10), profileComplete: true, accountType: 'volunteer' }
 ];
+
 //login endpoint
 router.post('/login', (req, res) => {
   const { email, password } = req.body;

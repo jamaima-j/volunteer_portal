@@ -33,7 +33,7 @@ const events = [
 
 const notifications = [];
 
-//routes for events
+//events routes
 app.get('/admin/events', (req, res) => {
   res.json(events);
 });

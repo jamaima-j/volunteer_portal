@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,10 +14,14 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/auth/login', { email, password });
 
-      const user = response.data;
+      const user = response.data.user;
 
       setError('');
-      console.log('Login successful');
+      console.log('Logged in successfully');
+      localStorage.setItem('userEmail', user.email);
+      localStorage.setItem('userAccountType', user.accountType);
+      localStorage.setItem('userProfileComplete', user.profileComplete);
+
       if (user.accountType === 'admin') {
         navigate('/admin');
       } else if (user.profileComplete) {
