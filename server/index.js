@@ -6,20 +6,22 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = 5000;
 
+//middleware
 app.use(express.json());
 app.use(cors());
 
-// MongoDB connection
-mongoose.connect('mongodb://localhost:27017/volunteer', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000, // 5 seconds timeout
-  socketTimeoutMS: 45000 // 45 seconds timeout
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(error => console.error('Could not connect to MongoDB:', error));
+//print the MONGODB_URI to verify it's being read correctly
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
-// Import routes
+//mongoDB Connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => {
+    console.error('Could not connect to MongoDB', err);
+    process.exit(1);
+  });
+
+//import routes
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
@@ -31,21 +33,12 @@ const matchingRoute = require('./routes/matching');
 const volunteerHistoryRoute = require('./routes/volunteerHistory');
 >>>>>>> Stashed changes
 
-// Use routes
+//use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
 <<<<<<< Updated upstream
 app.use('/profile', profileRoute);
 app.use('/notifications', notificationsRoute);
-=======
-app.use('/matching', matchingRoute);
-app.use('/volunteerHistory', volunteerHistoryRoute);
-
-// Test route
-app.get('/test', (req, res) => {
-  res.send('Server is running');
-});
->>>>>>> Stashed changes
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
