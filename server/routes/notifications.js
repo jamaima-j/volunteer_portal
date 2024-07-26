@@ -1,30 +1,36 @@
 const express = require('express');
+const router = express.Router();
+const Notification = require('../models/notification'); // Assuming you have a Notification model defined
 
-module.exports = (notifications) => {
-  const router = express.Router();
-
-  // Get all notifications
-  router.get('/', (req, res) => {
+// Get all notifications
+router.get('/', async (req, res) => {
+  try {
+    const notifications = await Notification.find();
     res.json(notifications);
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-  // Add a new notification
-  router.post('/', (req, res) => {
-    const newNotification = req.body;
-    notifications.push(newNotification);
+// Create a new notification
+router.post('/', async (req, res) => {
+  const notification = new Notification(req.body);
+  try {
+    const newNotification = await notification.save();
     res.status(201).json(newNotification);
-  });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
-  // Delete a notification
-  router.delete('/:index', (req, res) => {
-    const index = parseInt(req.params.index, 10);
-    if (index >= 0 && index < notifications.length) {
-      const removedNotification = notifications.splice(index, 1);
-      res.json(removedNotification);
-    } else {
-      res.status(404).json({ message: 'Notification not found' });
-    }
-  });
+// Delete a notification
+router.delete('/:id', async (req, res) => {
+  try {
+    await Notification.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Notification deleted' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-  return router;
-};
+module.exports = router;
