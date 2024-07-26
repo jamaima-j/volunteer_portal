@@ -1,19 +1,21 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
+const dotenv = require('dotenv');
+
+dotenv.config();  // Load environment variables
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-//middleware
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-//print the MONGODB_URI to verify it's being read correctly
+// Print the MONGODB_URI to verify it's being read correctly
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
-//mongoDB Connection
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => {
@@ -21,18 +23,23 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 
-//import routes
+// Import routes
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
-const profileRoute = require('./routes/profile');
-const notificationsRoute = require('./routes/notifications');
+const matchingRoute = require('./routes/matching');
+const volunteerHistoryRoute = require('./routes/volunteerHistory');
 
-//use routes
+// Use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
-app.use('/profile', profileRoute);
-app.use('/notifications', notificationsRoute);
+app.use('/matching', matchingRoute);
+app.use('/volunteerHistory', volunteerHistoryRoute);
+
+// Test route
+app.get('/test', (req, res) => {
+  res.send('Server is running');
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
