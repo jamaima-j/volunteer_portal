@@ -8,14 +8,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+//middleware
 app.use(express.json());
 app.use(cors());
 
-// Print the MONGODB_URI to verify it's being read correctly
+//print the MONGODB_URI to verify it's being read correctly
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
-// MongoDB Connection
+//mongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => {
@@ -23,17 +23,17 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 
-// Import routes
+//import routes
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
 
-// Use routes
+//use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
 
-// Test route
+//test route
 app.get('/test', (req, res) => {
   res.send('Server is running');
 });
