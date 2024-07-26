@@ -1,12 +1,10 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
-dotenv.config();
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 //middleware
 app.use(express.json());
@@ -27,15 +25,29 @@ mongoose.connect(process.env.MONGODB_URI)
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
+<<<<<<< Updated upstream
+const profileRoute = require('./routes/profile');
+const notificationsRoute = require('./routes/notifications');
+=======
+const matchingRoute = require('./routes/matching');
+const volunteerHistoryRoute = require('./routes/volunteerHistory');
+>>>>>>> Stashed changes
 
 //use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
+<<<<<<< Updated upstream
+app.use('/profile', profileRoute);
+app.use('/notifications', notificationsRoute);
+=======
+app.use('/matching', matchingRoute);
+app.use('/volunteerHistory', volunteerHistoryRoute);
 
 //test route
 app.get('/test', (req, res) => {
   res.send('Server is running');
 });
+>>>>>>> Stashed changes
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
