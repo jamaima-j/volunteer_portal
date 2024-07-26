@@ -1,15 +1,13 @@
 const express = require('express');
-const Volunteer = require('../models/volunteer');
-const Event = require('../models/event');
 
-const router = express.Router();
+module.exports = (volunteers, events) => {
+  const router = express.Router();
 
-// Get volunteer history
-router.get('/', async (req, res) => {
-  try {
-    const volunteers = await Volunteer.find().populate('matchedEvents');
+  // Get volunteer history
+  router.get('/', (req, res) => {
     const history = volunteers.flatMap(volunteer => {
-      return volunteer.matchedEvents.map(event => {
+      return volunteer.matchedEvents.map(eventId => {
+        const event = events.find(e => e.id === eventId);
         if (event) {
           return {
             volunteerName: volunteer.name,
@@ -27,9 +25,7 @@ router.get('/', async (req, res) => {
     });
 
     res.json(history);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+  });
 
-module.exports = router;
+  return router;
+};
