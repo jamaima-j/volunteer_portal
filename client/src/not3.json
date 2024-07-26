@@ -1,0 +1,10 @@
+{
+    "type": "event_reminder",
+    "title": "Event Reminder",
+    "message": "Reminder: The event 'Community Clean-Up' is tomorrow at 9:00 AM.",
+    "event_id": "1",
+    "event_name": "Community Clean-Up",
+    "reminder_date": "2024-08-03T08:00:00Z"
+  }
+
+  
