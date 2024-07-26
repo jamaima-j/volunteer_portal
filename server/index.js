@@ -23,29 +23,14 @@ mongoose.connect('mongodb://localhost:27017/volunteer', {
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
-<<<<<<< Updated upstream
 const profileRoute = require('./routes/profile');
 const notificationsRoute = require('./routes/notifications');
-=======
-const matchingRoute = require('./routes/matching');
-const volunteerHistoryRoute = require('./routes/volunteerHistory');
->>>>>>> Stashed changes
 
 // Use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
-<<<<<<< Updated upstream
 app.use('/profile', profileRoute);
 app.use('/notifications', notificationsRoute);
-=======
-app.use('/matching', matchingRoute);
-app.use('/volunteerHistory', volunteerHistoryRoute);
-
-// Test route
-app.get('/test', (req, res) => {
-  res.send('Server is running');
-});
->>>>>>> Stashed changes
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
