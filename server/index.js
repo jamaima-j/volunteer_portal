@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 5000;
 //middleware
 app.use(express.json());
 app.use(cors());
+app.use('/states', states);
 
 //print the MONGODB_URI to verify it's being read correctly
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
@@ -31,8 +32,6 @@ const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
 const matchingRoute = require('./routes/matching');
 const volunteerHistoryRoute = require('./routes/volunteerHistory');
-const statesRoute = require('./routes/states');
-const profileRoute = require('./routes/profile'); 
 
 //use routes
 app.use('/admin/events', eventsRoute);
@@ -40,9 +39,6 @@ app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
 app.use('/matching', matchingRoute);
 app.use('/volunteerHistory', volunteerHistoryRoute);
-app.use('/states', statesRoute);
-app.use('/profile', profileRoute);
-
 
 //test route
 app.get('/test', (req, res) => {
