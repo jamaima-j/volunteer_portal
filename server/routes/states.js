@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const State = require('../models/State');
 
-// Get all states
+//gets all states
 router.get('/', async (req, res) => {
   try {
     const states = await State.find();

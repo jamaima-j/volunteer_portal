@@ -65,4 +65,3 @@ mongoose.connect('mongodb://localhost:27017/volunteer', { useNewUrlParser: true,
     console.error(err);
     mongoose.connection.close();
   });
-  
