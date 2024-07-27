@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt'); // Import bcrypt
+const bcrypt = require('bcrypt');
 const loginRoute = require('../routes/login');
 const User = require('../models/User');
 
@@ -19,7 +19,11 @@ afterAll(async () => {
 
 beforeEach(async () => {
   await User.deleteMany({});
-  await User.create({ email: 'test@test.com', password: await bcrypt.hash('testtest', 10), accountType: 'volunteer' });
+  await User.create({
+    email: 'test@test.com',
+    password: await bcrypt.hash('testtest', 10),
+    accountType: 'volunteer',
+  });
 });
 
 describe('Login', () => {
