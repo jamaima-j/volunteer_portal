@@ -11,7 +11,7 @@ const PORT = 5000;
 
 //middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use('/states', states);
 
 //print the MONGODB_URI to verify it's being read correctly
@@ -31,13 +31,14 @@ const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
 const matchingRoute = require('./routes/matching');
 const volunteerHistoryRoute = require('./routes/volunteerHistory');
-
+const notificationsRoute = require('./routes/notifications');
 //use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
 app.use('/matching', matchingRoute);
 app.use('/volunteerHistory', volunteerHistoryRoute);
+app.use('/notifications', notificationsRoute);
 
 //test route
 app.get('/test', (req, res) => {

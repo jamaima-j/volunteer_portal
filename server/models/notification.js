@@ -13,7 +13,10 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  event_id: String,
+  event_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event'
+  },
   event_name: String,
   assigned_date: Date,
   update_details: String,

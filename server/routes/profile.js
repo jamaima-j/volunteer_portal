@@ -2,24 +2,42 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-//profile update endpoint
+// Profile update endpoint
 router.put('/update', async (req, res) => {
-  try {
-    const { email, fullName, address, city, state, zip, skills, preferences, availability } = req.body;
+  const { email, fullName, address1, city, state, zip, selectedSkills, preferences, availability } = req.body;
 
-    //find user by email
+  if (!fullName || fullName.length > 50) {
+    return res.status(400).json({ message: 'Full name is required and must be less than 50 characters.' });
+  }
+
+  if (!address1 || address1.length > 100) {
+    return res.status(400).json({ message: 'Address 1 is required and must be less than 100 characters.' });
+  }
+
+  if (!city || city.length > 100) {
+    return res.status(400).json({ message: 'City is required and must be less than 100 characters.' });
+  }
+
+  if (!state) {
+    return res.status(400).json({ message: 'State is required.' });
+  }
+
+  if (!zip || !/^\d{5}(-\d{4})?$/.test(zip)) {
+    return res.status(400).json({ message: 'Zip code is required and must be either 5 or 9 digits long.' });
+  }
+
+  try {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    //update user profile
     user.fullName = fullName;
-    user.address = address;
+    user.address1 = address1;
     user.city = city;
     user.state = state;
     user.zip = zip;
-    user.skills = skills;
+    user.selectedSkills = selectedSkills;
     user.preferences = preferences;
     user.availability = availability;
     user.profileComplete = true;
