@@ -1,52 +1,59 @@
 const express = require('express');
+const Volunteer = require('../models/Volunteer');
+const Event = require('../models/event');
 
-module.exports = (volunteers, events) => {
-  const router = express.Router();
+const router = express.Router();
 
-  // Get all volunteers
-  router.get('/volunteers', (req, res) => {
+// Get all volunteers
+router.get('/volunteers', async (req, res) => {
+  try {
+    const volunteers = await Volunteer.find();
     res.json(volunteers);
-  });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching volunteers', error });
+  }
+});
 
-  // Get all events
-  router.get('/events', (req, res) => {
+// Get all events
+router.get('/events', async (req, res) => {
+  try {
+    const events = await Event.find();
     res.json(events);
-  });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching events', error });
+  }
+});
 
-  // Add a new volunteer
-  router.post('/volunteers', (req, res) => {
-    const volunteer = {
-      id: volunteers.length + 1,
-      name: req.body.name,
-      skills: req.body.skills,
-      availability: req.body.availability,
-      matchedEvents: []
-    };
-    volunteers.push(volunteer);
+// Add a new volunteer
+router.post('/volunteers', async (req, res) => {
+  const { name, email, skills, availability } = req.body;
+  try {
+    const volunteer = new Volunteer({ name, email, skills, availability, matchedEvents: [] });
+    await volunteer.save();
     res.status(201).json(volunteer);
-  });
+  } catch (error) {
+    res.status(400).json({ message: 'Error adding volunteer', error });
+  }
+});
 
-  // Add a new event
-  router.post('/events', (req, res) => {
-    const event = {
-      id: events.length + 1,
-      name: req.body.name,
-      description: req.body.description,
-      location: req.body.location,
-      requiredSkills: req.body.requiredSkills,
-      urgency: req.body.urgency,
-      date: req.body.date,
-      volunteers: []
-    };
-    events.push(event);
+// Add a new event
+router.post('/events', async (req, res) => {
+  const { name, description, location, requiredSkills, urgency, eventDate } = req.body;
+  try {
+    const event = new Event({ name, description, location, requiredSkills, urgency, eventDate, volunteers: [] });
+    await event.save();
     res.status(201).json(event);
-  });
+  } catch (error) {
+    res.status(400).json({ message: 'Error adding event', error });
+  }
+});
 
-  // Match volunteer to an event
-  router.post('/match', (req, res) => {
-    const { volunteerId, eventId } = req.body;
-    const volunteer = volunteers.find(v => v.id === parseInt(volunteerId));
-    const event = events.find(e => e.id === parseInt(eventId));
+// Match volunteer to an event
+router.post('/match', async (req, res) => {
+  const { volunteerId, eventId } = req.body;
+  try {
+    const volunteer = await Volunteer.findById(volunteerId);
+    const event = await Event.findById(eventId);
 
     if (!volunteer || !event) {
       return res.status(404).json({ message: 'Volunteer or Event not found' });
@@ -55,8 +62,13 @@ module.exports = (volunteers, events) => {
     volunteer.matchedEvents.push(eventId);
     event.volunteers.push(volunteerId);
 
-    res.status(200).json({ message: 'Volunteer matched to event successfully' });
-  });
+    await volunteer.save();
+    await event.save();
 
-  return router;
-};
+    res.status(200).json({ message: 'Volunteer matched to event successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Error matching volunteer to event', error });
+  }
+});
+
+module.exports = router;
