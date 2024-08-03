@@ -8,14 +8,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-//middleware
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-//print the MONGODB_URI to verify it's being read correctly
+// Print the MONGODB_URI to verify it's being read correctly
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
-//mongoDB Connection
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => {
@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 
-//import routes
+// Import routes
 const eventsRoute = require('./routes/events');
 const registrationRoute = require('./routes/registration');
 const loginRoute = require('./routes/login');
@@ -32,7 +32,7 @@ const volunteerHistoryRoute = require('./routes/volunteerHistory');
 const statesRoute = require('./routes/states');
 const profileRoute = require('./routes/profile');
 
-//use routes
+// Use routes
 app.use('/admin/events', eventsRoute);
 app.use('/auth', registrationRoute);
 app.use('/auth', loginRoute);
@@ -41,7 +41,7 @@ app.use('/volunteerHistory', volunteerHistoryRoute);
 app.use('/states', statesRoute);
 app.use('/profile', profileRoute);
 
-//test route
+// Test route
 app.get('/test', (req, res) => {
   res.send('Server is running');
 });
