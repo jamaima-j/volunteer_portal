@@ -4,6 +4,7 @@ import axios from 'axios';
 const ProfileManagement = () => {
   const [states, setStates] = useState([]);
   const [userProfile, setUserProfile] = useState({
+    email: '',
     fullName: '',
     address: '',
     city: '',
@@ -15,7 +16,7 @@ const ProfileManagement = () => {
   });
 
   useEffect(() => {
-    // Fetch states from backend
+    //fetch states from backend
     axios.get('http://localhost:5000/states')
       .then(response => {
         setStates(response.data);
@@ -24,7 +25,7 @@ const ProfileManagement = () => {
         console.error('Error fetching states:', error);
       });
 
-    // Fetch user profile details
+    //fetch user profile details
     const email = localStorage.getItem('email');
     if (email) {
       axios.get(`http://localhost:5000/profile/${email}`)
@@ -53,6 +54,7 @@ const ProfileManagement = () => {
       })
       .catch(error => {
         console.error('Error updating profile:', error);
+        alert('Error updating profile');
       });
   };
 

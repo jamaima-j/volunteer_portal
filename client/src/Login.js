@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,30 +6,41 @@ import './Login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    const validationErrors = [];
+
+    if (!email || !password) {
+      validationErrors.push('Please fill in all fields.');
+    }
+
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/auth/login', { email, password });
 
-      const user = response.data.user;
+      console.log('Response:', response.data);
 
-      setError('');
+      setErrors([]);
       console.log('Logged in successfully');
-      localStorage.setItem('userEmail', user.email);
-      localStorage.setItem('userAccountType', user.accountType);
-      localStorage.setItem('userProfileComplete', user.profileComplete);
+      localStorage.setItem('email', response.data.user.email); // store email in localStorage
+      localStorage.setItem('accountType', response.data.user.accountType); // store account type in localStorage
 
-      if (user.accountType === 'admin') {
+      if (response.data.user.accountType === 'admin') {
         navigate('/admin');
-      } else if (user.profileComplete) {
+      } else if (response.data.user.profileComplete) {
         navigate('/dashboard');
       } else {
         navigate('/profile');
       }
     } catch (err) {
-      setError('Invalid login. Please check your email and password.');
+      console.error('Error during login:', err);
+      setErrors(['Invalid email or password.']);
     }
   };
 
@@ -51,8 +61,14 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleLogin}>Login</button>
-        {error && <p className="error">{error}</p>}
-        <p className="register-link">Don't have an account? <a href="/register">Sign up here!</a></p>
+        {errors.length > 0 && (
+          <div className="error">
+            {errors.map((error, index) => (
+              <p key={index}>{error}</p>
+            ))}
+          </div>
+        )}
+        <p>Don't have an account? <a href="/register">Register here</a></p>
       </div>
     </div>
   );

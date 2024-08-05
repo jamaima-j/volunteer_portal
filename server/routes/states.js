@@ -5,10 +5,10 @@ const State = require('../models/State');
 //gets all states
 router.get('/', async (req, res) => {
   try {
-    const states = await State.find();
+    const states = await State.find({});
     res.status(200).json(states);
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error', error });
+    res.status(500).json({ message: 'Error fetching states', error });
   }
 });
 

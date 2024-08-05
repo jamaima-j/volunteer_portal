@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Profile.css';
@@ -54,8 +54,6 @@ const states = [
   { code: 'WV', name: 'West Virginia' },
   { code: 'WI', name: 'Wisconsin' },
   { code: 'WY', name: 'Wyoming' },
-
-  //hardcoded in for now, can change with database use
 ];
 
 const skills = [
@@ -66,7 +64,7 @@ const days = [
   'Placeholder Date 1', 'Placeholder Date 2', 'Placeholder Date 3',
 ];
 
-const Profile = ({ email }) => {
+const Profile = () => {
   const [fullName, setFullName] = useState('');
   const [address1, setAddress1] = useState('');
   const [address2, setAddress2] = useState('');
@@ -79,6 +77,13 @@ const Profile = ({ email }) => {
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const email = localStorage.getItem('email');
+    if (!email) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleSubmission = async (e) => {
     e.preventDefault();
@@ -94,20 +99,11 @@ const Profile = ({ email }) => {
       return;
     }
 
-    try {
-      console.log('Sending request to update profile with:', {
-        email,
-        fullName,
-        address1,
-        address2,
-        city,
-        state,
-        zip,
-        selectedSkills,
-        preferences,
-        availability
-      });
+    const email = localStorage.getItem('email'); // Get email from localStorage
 
+    console.log('Sending request to update profile with email:', email);
+
+    try {
       const response = await axios.put('http://localhost:5000/profile/update', {
         email,
         fullName,
