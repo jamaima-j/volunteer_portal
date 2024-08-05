@@ -117,6 +117,14 @@ const AdminPortal = () => {
     return true;
   };
 
+  const handleGeneratePDF = async () => {
+    window.open('http://localhost:5000/admin/reporting/report/pdf', '_blank');
+  };
+
+  const handleGenerateCSV = async () => {
+    window.open('http://localhost:5000/admin/reporting/report/csv', '_blank');
+  };
+
   return (
     <div className="admin-portal">
       <div className="sidebar">
