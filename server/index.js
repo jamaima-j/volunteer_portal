@@ -32,6 +32,7 @@ const volunteerHistoryRoute = require('./routes/volunteerHistory');
 const statesRoute = require('./routes/states');
 const profileRoute = require('./routes/profile');
 const reportingRoute = require('./routes/reporting');
+const volunteersRoute = require('./routes/volunteers'); // Importing volunteers route
 
 // Use routes
 app.use('/admin/events', eventsRoute);
@@ -42,6 +43,7 @@ app.use('/volunteerHistory', volunteerHistoryRoute);
 app.use('/states', statesRoute);
 app.use('/profile', profileRoute);
 app.use('/admin/reporting', reportingRoute);
+app.use('/volunteers', volunteersRoute); // Adding volunteers route
 
 // Test route
 app.get('/test', (req, res) => {
