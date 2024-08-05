@@ -3,10 +3,12 @@ const style = document.createElement('style');
 style.innerHTML = `
     body {
         font-family: Arial, sans-serif;
+        background-color: #1e1e2f; /* Dark background color */
+        color: white; /* White text color */
     }
     .tabs {
         overflow: hidden;
-        background-color: #f1f1f1;
+        background-color: #333; /* Darker background for tabs */
     }
     .tablink {
         background-color: #555;
@@ -22,40 +24,65 @@ style.innerHTML = `
     .tablink:hover {
         background-color: #777;
     }
+    .tablink.active {
+        background-color: #1e293b;
+    }
     .tabcontent {
         display: none;
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid #444c6b; /* Slightly lighter border */
         border-top: none;
+        background-color: #2e2e3e; /* Darker background for tab content */
+        border-radius: 5px;
+        margin-top: -1px;
+        color: white; /* Ensure text is white */
     }
     .tabcontent h3 {
         margin-top: 0;
+        color: white; /* Ensure headings are white */
     }
     table {
         width: 100%;
         border-collapse: collapse;
+        margin-bottom: 20px;
+        color: white; /* Ensure table text is white */
     }
     table, th, td {
-        border: 1px solid black;
+        border: 1px solid #444c6b; /* Slightly lighter border */
+    }
+    th {
+        background-color: #333; /* Darker background for table headers */
+        color: white; /* White text for headers */
     }
     th, td {
-        padding: 8px;
+        padding: 12px;
         text-align: left;
+    }
+    td {
+        background-color: #555; /* Darker background for table cells */
     }
     .edit-button, .save-button, .add-button, .delete-button {
         background-color: #4CAF50; /* Green */
         border: none;
         color: white;
-        padding: 5px 10px;
+        padding: 10px 20px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 16px;
+        font-size: 14px;
         margin: 4px 2px;
         cursor: pointer;
+        border-radius: 5px;
     }
     .save-button, .delete-button {
         background-color: #f44336; /* Red */
+    }
+    .add-button {
+        background-color: #2196F3; /* Blue */
+    }
+    .button-group {
+        margin-top: 20px;
+        text-align: right;
     }
 `;
 document.head.appendChild(style);
@@ -74,14 +101,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Remove the background color of all tablinks/buttons
         tablinks = document.getElementsByClassName("tablink");
         for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].style.backgroundColor = "";
+            tablinks[i].classList.remove("active");
         }
 
         // Show the specific tab content
         document.getElementById(tabName).style.display = "block";
 
         // Add an active class to the button that opened the tab
-        evt.currentTarget.style.backgroundColor = "#777";
+        evt.currentTarget.classList.add("active");
     }
 
     // Default open the first tab
@@ -122,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add new row
     document.getElementById('addRow').addEventListener('click', function () {
-        const table = document.querySelector('#VolunteerHistory table tbody');
+        const table = document.querySelector('.tabcontent.active table tbody');
         const newRow = document.createElement('tr');
 
         for (let i = 0; i < 7; i++) {
