@@ -39,6 +39,7 @@ const Register = () => {
 
       setErrors([]);
       console.log('Registered successfully');
+      localStorage.setItem('email', email); //store email in localStorage
       navigate('/profile');
     } catch (err) {
       setErrors(['User already exists. Please login.']);
