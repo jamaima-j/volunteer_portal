@@ -3,7 +3,16 @@ import axios from 'axios';
 import './AdminPortal.css';
 
 const AdminPortal = () => {
-  const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4']);
+  const [skills] = useState([
+    'Ability to listen actively and convey information clearly.',
+    'Proficiency in written and verbal communication.',
+    'Empathy and the ability to work well with others.',
+    'Building relationships and networking.',
+    'Time management',
+    'Attention to detail and the ability to follow through on commitments.',
+    'Ability to think critically and creatively to resolve issues.',
+    'Flexibility and adaptability in changing situations.'
+  ]);
   const [events, setEvents] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
   const [volunteerHistory, setVolunteerHistory] = useState([]);
@@ -62,12 +71,16 @@ const AdminPortal = () => {
       location: e.target.location.value,
       skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
       urgency: e.target.urgency.value,
-      date: e.target.eventDate.value,
+      eventDate: e.target.eventDate.value,
     };
 
     try {
       const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
       setEvents([...events, response.data]);
+      // Add success notification
+      setNotifications([...notifications, { message: 'Event added successfully', type: 'success' }]);
+      // Clear the form
+      e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
     }
@@ -80,6 +93,8 @@ const AdminPortal = () => {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
+      // Add success notification
+      setNotifications([...notifications, { message: 'Volunteer matched successfully', type: 'success' }]);
       alert('Volunteer matched successfully');
     } catch (error) {
       console.error('Error matching volunteer:', error);
@@ -115,14 +130,6 @@ const AdminPortal = () => {
     }
 
     return true;
-  };
-
-  const handleGeneratePDF = async () => {
-    window.open('http://localhost:5000/admin/reporting/report/pdf', '_blank');
-  };
-
-  const handleGenerateCSV = async () => {
-    window.open('http://localhost:5000/admin/reporting/report/csv', '_blank');
   };
 
   return (

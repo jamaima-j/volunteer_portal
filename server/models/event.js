@@ -1,3 +1,4 @@
+// backend/models/event.js
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
@@ -21,7 +22,7 @@ const eventSchema = new mongoose.Schema({
   urgency: {
     type: String,
     required: true,
-    enum: ['Low', 'Medium', 'High']
+    enum: ['low', 'medium', 'high'] // Ensure these values are lowercase
   },
   eventDate: {
     type: Date,

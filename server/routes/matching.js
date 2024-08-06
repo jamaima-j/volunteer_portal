@@ -1,6 +1,7 @@
 const express = require('express');
 const Volunteer = require('../models/Volunteer');
 const Event = require('../models/event');
+const Notification = require('../models/notification'); // Import the Notification model
 
 const router = express.Router();
 
@@ -42,6 +43,17 @@ router.post('/events', async (req, res) => {
   try {
     const event = new Event({ name, description, location, requiredSkills, urgency, eventDate, volunteers: [] });
     await event.save();
+
+    // Create a notification for the new event
+    const notification = new Notification({
+      type: 'Event',
+      title: `New Event Added: ${event.name}`,
+      message: `A new event named ${event.name} has been added.`,
+      event_id: event._id,
+      event_name: event.name
+    });
+    await notification.save();
+
     res.status(201).json(event);
   } catch (error) {
     res.status(400).json({ message: 'Error adding event', error });
@@ -64,6 +76,16 @@ router.post('/match', async (req, res) => {
 
     await volunteer.save();
     await event.save();
+
+    // Create a notification for the volunteer match
+    const notification = new Notification({
+      type: 'Matching',
+      title: 'Volunteer Matched',
+      message: `Volunteer ${volunteer.name} has been matched to event ${event.name}.`,
+      event_id: event._id,
+      event_name: event.name
+    });
+    await notification.save();
 
     res.status(200).json({ message: 'Volunteer matched to event successfully' });
   } catch (error) {

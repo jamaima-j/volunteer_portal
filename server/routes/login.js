@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
     return res.status(400).json({ message: 'Email and password are required.' });
   }
 
-  if (email === 'admin@admin.com' && password === '12345678') {
+  if (email === 'admin@admin.com' && password === '12345678') { 
     return res.status(200).json({
       message: 'Admin login successful',
       user: {
