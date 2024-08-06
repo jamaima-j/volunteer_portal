@@ -77,9 +77,7 @@ const AdminPortal = () => {
     try {
       const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
       setEvents([...events, response.data]);
-      // Add success notification
       setNotifications([...notifications, { message: 'Event added successfully', type: 'success' }]);
-      // Clear the form
       e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
@@ -93,7 +91,6 @@ const AdminPortal = () => {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
-      // Add success notification
       setNotifications([...notifications, { message: 'Volunteer matched successfully', type: 'success' }]);
       alert('Volunteer matched successfully');
     } catch (error) {
@@ -230,7 +227,7 @@ const AdminPortal = () => {
                 <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
                   <option value="">Select Volunteer</option>
                   {volunteers.map((volunteer) => (
-                    <option key={volunteer.id} value={volunteer.id}>{volunteer.name}</option>
+                    <option key={volunteer._id} value={volunteer._id}>{volunteer.fullName}</option>
                   ))}
                 </select>
               </div>
@@ -239,7 +236,7 @@ const AdminPortal = () => {
                 <select id="eventSelect" onChange={(e) => setSelectedEvent(e.target.value)} required>
                   <option value="">Select Event</option>
                   {events.map((event) => (
-                    <option key={event.id} value={event.id}>{event.name}</option>
+                    <option key={event._id} value={event._id}>{event.name}</option>
                   ))}
                 </select>
               </div>

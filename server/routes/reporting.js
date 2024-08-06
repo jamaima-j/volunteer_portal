@@ -1,7 +1,7 @@
 const express = require('express');
 const PDFDocument = require('pdfkit');
 const { createObjectCsvWriter } = require('csv-writer');
-const Volunteer = require('../models/Volunteer'); 
+const User = require('../models/User'); 
 const Event = require('../models/event'); 
 
 const router = express.Router();
@@ -12,16 +12,16 @@ const generatePDF = async (res) => {
   doc.pipe(res);
 
   // Fetch data from database
-  const volunteers = await Volunteer.find();
+  const volunteers = await User.find({ accountType: 'volunteer' });
   const events = await Event.find();
 
   doc.fontSize(25).text('Volunteer Report', { align: 'center' });
   doc.moveDown();
 
   volunteers.forEach(volunteer => {
-    doc.fontSize(20).text(`Volunteer: ${volunteer.name}`);
+    doc.fontSize(20).text(`Volunteer: ${volunteer.fullName}`);
     doc.fontSize(15).text(`Participation History:`);
-    volunteer.participationHistory.forEach(event => {
+    volunteer.matchedEvents.forEach(event => {
       doc.fontSize(12).text(`- ${event.name} on ${event.date}`);
     });
     doc.moveDown();
@@ -38,7 +38,7 @@ const generatePDF = async (res) => {
     doc.fontSize(15).text(`Date: ${event.eventDate}`);
     doc.fontSize(15).text(`Volunteers:`);
     event.volunteers.forEach(volunteer => {
-      doc.fontSize(12).text(`- ${volunteer.name}`);
+      doc.fontSize(12).text(`- ${volunteer.fullName}`);
     });
     doc.moveDown();
   });
@@ -48,7 +48,7 @@ const generatePDF = async (res) => {
 
 // Helper function to generate CSV
 const generateCSV = async (res) => {
-  const volunteers = await Volunteer.find();
+  const volunteers = await User.find({ accountType: 'volunteer' });
   const events = await Event.find();
 
   const csvWriter = createObjectCsvWriter({
@@ -65,8 +65,8 @@ const generateCSV = async (res) => {
   volunteers.forEach(volunteer => {
     records.push({
       type: 'Volunteer',
-      name: volunteer.name,
-      details: volunteer.participationHistory.map(event => `${event.name} on ${event.date}`).join('; ')
+      name: volunteer.fullName,
+      details: volunteer.matchedEvents.map(event => `${event.name} on ${event.date}`).join('; ')
     });
   });
 
@@ -74,7 +74,7 @@ const generateCSV = async (res) => {
     records.push({
       type: 'Event',
       name: event.name,
-      details: `Description: ${event.description}; Location: ${event.location}; Date: ${event.eventDate}; Volunteers: ${event.volunteers.map(v => v.name).join(', ')}`
+      details: `Description: ${event.description}; Location: ${event.location}; Date: ${event.eventDate}; Volunteers: ${event.volunteers.map(v => v.fullName).join(', ')}`
     });
   });
 
