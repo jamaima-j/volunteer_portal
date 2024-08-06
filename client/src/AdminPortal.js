@@ -60,14 +60,20 @@ const AdminPortal = () => {
       name: e.target.eventName.value,
       description: e.target.eventDescription.value,
       location: e.target.location.value,
-      skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
-      urgency: e.target.urgency.value,
-      date: e.target.eventDate.value,
+      requiredSkills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
+      urgency: e.target.urgency.value.toLowerCase(), // Ensure urgency is lowercase
+      eventDate: e.target.eventDate.value,
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
+      const response = await axios.post('http://localhost:5000/admin/events', newEvent);
       setEvents([...events, response.data]);
+
+      // Add notification
+      setNotifications([...notifications, { type: 'Event', title: 'New Event Added', message: `Event added: ${response.data.name}` }]);
+
+      // Clear the form fields
+      e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
     }
@@ -80,6 +86,10 @@ const AdminPortal = () => {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
+
+      // Add notification
+      setNotifications([...notifications, { type: 'Matching', title: 'Volunteer Matched', message: `Volunteer with ID ${selectedVolunteer} matched to event with ID ${selectedEvent}` }]);
+
       alert('Volunteer matched successfully');
     } catch (error) {
       console.error('Error matching volunteer:', error);
@@ -97,24 +107,6 @@ const AdminPortal = () => {
     }
     document.getElementById(tabName).style.display = 'block';
     evt.currentTarget.className += ' active';
-  };
-
-  const validateForm = (e) => {
-    const volunteerName = document.getElementById('volunteerName').value;
-    const volunteerSkills = document.getElementById('volunteerSkills').value;
-    const volunteerAvailability = document.getElementById('volunteerAvailability').value;
-
-    if (
-      volunteerName.length > 100 ||
-      volunteerSkills.length > 100 ||
-      volunteerAvailability.length > 100
-    ) {
-      alert('Each field must be no more than 100 characters.');
-      e.preventDefault();
-      return false;
-    }
-
-    return true;
   };
 
   return (
@@ -185,7 +177,7 @@ const AdminPortal = () => {
                 <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
                   <option value="">Select Volunteer</option>
                   {volunteers.map((volunteer) => (
-                    <option key={volunteer.id} value={volunteer.id}>{volunteer.name}</option>
+                    <option key={volunteer._id} value={volunteer._id}>{volunteer.name}</option>
                   ))}
                 </select>
               </div>
@@ -194,7 +186,7 @@ const AdminPortal = () => {
                 <select id="eventSelect" onChange={(e) => setSelectedEvent(e.target.value)} required>
                   <option value="">Select Event</option>
                   {events.map((event) => (
-                    <option key={event.id} value={event.id}>{event.name}</option>
+                    <option key={event._id} value={event._id}>{event.name}</option>
                   ))}
                 </select>
               </div>
@@ -229,7 +221,7 @@ const AdminPortal = () => {
                     <td>{entry.location}</td>
                     <td>{entry.requiredSkills.join(', ')}</td>
                     <td>{entry.urgency}</td>
-                    <td>{new Date(entry.date).toLocaleDateString()}</td>
+                    <td>{new Date(entry.eventDate).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
                   </tr>
                 ))}
@@ -242,34 +234,12 @@ const AdminPortal = () => {
           <div className="card">
             <h3>Notification System</h3>
             <div className="notification-section">
-              <h4>New Event Assignments</h4>
+              <h4>Notifications</h4>
               <ul className="notification-list">
                 {notifications.map((notification, index) => (
                   <li key={index} className="message-item">
-                    <input type="checkbox" id={`newAssignment${index}`} />
-                    <label htmlFor={`newAssignment${index}`}>{notification.message}</label>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="notification-section">
-              <h4>Updates</h4>
-              <ul className="notification-list">
-                {notifications.map((notification, index) => (
-                  <li key={index} className="message-item">
-                    <input type="checkbox" id={`update${index}`} />
-                    <label htmlFor={`update${index}`}>{notification.message}</label>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="notification-section">
-              <h4>Reminders</h4>
-              <ul className="notification-list">
-                {notifications.map((notification, index) => (
-                  <li key={index} className="message-item">
-                    <input type="checkbox" id={`reminder${index}`} />
-                    <label htmlFor={`reminder${index}`}>{notification.message}</label>
+                    <p>{notification.title}</p>
+                    <p>{notification.message}</p>
                   </li>
                 ))}
               </ul>

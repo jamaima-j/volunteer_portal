@@ -145,18 +145,20 @@ const EventM = () => {
       description: e.target.eventDescription.value,
       location: e.target.location.value,
       skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
-      urgency: e.target.urgency.value,
-      date: e.target.eventDate.value,
+      urgency: e.target.urgency.value.toLowerCase(), // Transform urgency to lowercase
+      eventDate: e.target.eventDate.value,
     };
-
+  
     try {
-      const response = await axios.post('http://localhost:5000/events', newEvent);
-      setEvents([...events, response.data]);
+      const response = await axios.post('http://localhost:5000/admin/events', newEvent);
+      if (response.status === 201) {
+        setEvents([...events, response.data]); // Update state to include new event
+      }
     } catch (error) {
       console.error('Error adding event:', error);
     }
   };
-
+  
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -208,9 +210,9 @@ const EventM = () => {
                 <div className="form-section">
                   <label htmlFor="urgency">Urgency (required):</label>
                   <select id="urgency" name="urgency" required>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="low">low</option>
+                    <option value="medium">medium</option>
+                    <option value="high">high</option>
                   </select>
                 </div>
                 <div className="form-section">
