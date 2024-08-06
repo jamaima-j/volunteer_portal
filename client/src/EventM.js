@@ -123,10 +123,14 @@ injectStyle(css);
 const EventM = () => {
   const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5']);
   const [events, setEvents] = useState([]);
+  const [volunteers, setVolunteers] = useState([]);
+  const [selectedVolunteer, setSelectedVolunteer] = useState('');
+  const [selectedEvent, setSelectedEvent] = useState('');
   const [activeTab, setActiveTab] = useState('Welcome');
 
   useEffect(() => {
     fetchEvents();
+    fetchVolunteers();
   }, []);
 
   const fetchEvents = async () => {
@@ -135,6 +139,15 @@ const EventM = () => {
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
+    }
+  };
+
+  const fetchVolunteers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/volunteers');
+      setVolunteers(response.data);
+    } catch (error) {
+      console.error('Error fetching volunteers:', error);
     }
   };
 
@@ -158,7 +171,7 @@ const EventM = () => {
       console.error('Error adding event:', error);
     }
   };
-  
+
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -229,25 +242,27 @@ const EventM = () => {
           <div id="VolunteerMatching" className="tabcontent">
             <div className="card">
               <h3>Volunteer Matching Form</h3>
-              <form onSubmit={handleFormSubmit}>
+              <form onSubmit={handleMatchSubmit}>
                 <div className="form-section">
-                  <label htmlFor="volunteerName">Volunteer Name:</label>
-                  <input type="text" id="volunteerName" name="volunteerName" maxLength="100" required />
+                  <label htmlFor="volunteerSelect">Volunteer Name:</label>
+                  <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
+                    <option value="">Select Volunteer</option>
+                    {volunteers.map((volunteer) => (
+                      <option key={volunteer._id} value={volunteer._id}>{volunteer.email}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="form-section">
-                  <label htmlFor="volunteerSkills">Volunteer Skills:</label>
-                  <input type="text" id="volunteerSkills" name="volunteerSkills" maxLength="100" required />
+                  <label htmlFor="eventSelect">Matched Event:</label>
+                  <select id="eventSelect" onChange={(e) => setSelectedEvent(e.target.value)} required>
+                    <option value="">Select Event</option>
+                    {events.map((event) => (
+                      <option key={event._id} value={event._id}>{event.name}</option>
+                    ))}
+                  </select>
                 </div>
-                <div className="form-section">
-                  <label htmlFor="volunteerAvailability">Volunteer Availability:</label>
-                  <input type="text" id="volunteerAvailability" name="volunteerAvailability" maxLength="100" required />
-                </div>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Match" />
               </form>
-              <div className="card">
-                <h3>Volunteer has been matched to the following:</h3>
-                {/* Matched volunteer activities will be displayed here */}
-              </div>
             </div>
           </div>
         )}

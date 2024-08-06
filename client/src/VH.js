@@ -193,4 +193,13 @@ document.addEventListener('DOMContentLoaded', function () {
             button.parentElement.parentElement.remove();
         });
     });
+     // Event listener for generating PDF report
+     document.getElementById('generatePDF').addEventListener('click', function () {
+        window.open('http://localhost:5000/admin/reporting/report/pdf', '_blank');
+    });
+
+    // Event listener for generating CSV report
+    document.getElementById('generateCSV').addEventListener('click', function () {
+        window.open('http://localhost:5000/admin/reporting/report/csv', '_blank');
+    });
 });

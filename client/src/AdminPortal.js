@@ -109,6 +109,24 @@ const AdminPortal = () => {
     evt.currentTarget.className += ' active';
   };
 
+  const validateForm = (e) => {
+    const volunteerName = document.getElementById('volunteerName').value;
+    const volunteerSkills = document.getElementById('volunteerSkills').value;
+    const volunteerAvailability = document.getElementById('volunteerAvailability').value;
+
+    if (
+      volunteerName.length > 100 ||
+      volunteerSkills.length > 100 ||
+      volunteerAvailability.length > 100
+    ) {
+      alert('Each field must be no more than 100 characters.');
+      e.preventDefault();
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="admin-portal">
       <div className="sidebar">

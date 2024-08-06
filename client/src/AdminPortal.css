@@ -93,6 +93,20 @@
   box-sizing: border-box;
 }
 
+.card input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* This inverts the color, making the icon white */
+}
+
+.card input[type="date"] {
+  appearance: none; /* Remove default styling */
+  background-color: #1b1e2f;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .card input[type="submit"] {
   background-color: #555;
   color: white;
