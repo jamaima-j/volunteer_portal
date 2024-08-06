@@ -3,7 +3,16 @@ import axios from 'axios';
 import './AdminPortal.css';
 
 const AdminPortal = () => {
-  const [skills] = useState(['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4']);
+  const [skills] = useState([
+    'Ability to listen actively and convey information clearly.',
+    'Proficiency in written and verbal communication.',
+    'Empathy and the ability to work well with others.',
+    'Building relationships and networking.',
+    'Time management',
+    'Attention to detail and the ability to follow through on commitments.',
+    'Ability to think critically and creatively to resolve issues.',
+    'Flexibility and adaptability in changing situations.'
+  ]);
   const [events, setEvents] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
   const [volunteerHistory, setVolunteerHistory] = useState([]);
@@ -60,19 +69,17 @@ const AdminPortal = () => {
       name: e.target.eventName.value,
       description: e.target.eventDescription.value,
       location: e.target.location.value,
-      requiredSkills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
-      urgency: e.target.urgency.value.toLowerCase(), // Ensure urgency is lowercase
+      skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
+      urgency: e.target.urgency.value,
       eventDate: e.target.eventDate.value,
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/events', newEvent);
+      const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
       setEvents([...events, response.data]);
-
-      // Add notification
-      setNotifications([...notifications, { type: 'Event', title: 'New Event Added', message: `Event added: ${response.data.name}` }]);
-
-      // Clear the form fields
+      // Add success notification
+      setNotifications([...notifications, { message: 'Event added successfully', type: 'success' }]);
+      // Clear the form
       e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
@@ -86,10 +93,8 @@ const AdminPortal = () => {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
-
-      // Add notification
-      setNotifications([...notifications, { type: 'Matching', title: 'Volunteer Matched', message: `Volunteer with ID ${selectedVolunteer} matched to event with ID ${selectedEvent}` }]);
-
+      // Add success notification
+      setNotifications([...notifications, { message: 'Volunteer matched successfully', type: 'success' }]);
       alert('Volunteer matched successfully');
     } catch (error) {
       console.error('Error matching volunteer:', error);
@@ -195,7 +200,7 @@ const AdminPortal = () => {
                 <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
                   <option value="">Select Volunteer</option>
                   {volunteers.map((volunteer) => (
-                    <option key={volunteer._id} value={volunteer._id}>{volunteer.name}</option>
+                    <option key={volunteer.id} value={volunteer.id}>{volunteer.name}</option>
                   ))}
                 </select>
               </div>
@@ -204,7 +209,7 @@ const AdminPortal = () => {
                 <select id="eventSelect" onChange={(e) => setSelectedEvent(e.target.value)} required>
                   <option value="">Select Event</option>
                   {events.map((event) => (
-                    <option key={event._id} value={event._id}>{event.name}</option>
+                    <option key={event.id} value={event.id}>{event.name}</option>
                   ))}
                 </select>
               </div>
@@ -239,7 +244,7 @@ const AdminPortal = () => {
                     <td>{entry.location}</td>
                     <td>{entry.requiredSkills.join(', ')}</td>
                     <td>{entry.urgency}</td>
-                    <td>{new Date(entry.eventDate).toLocaleDateString()}</td>
+                    <td>{new Date(entry.date).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
                   </tr>
                 ))}
@@ -252,12 +257,34 @@ const AdminPortal = () => {
           <div className="card">
             <h3>Notification System</h3>
             <div className="notification-section">
-              <h4>Notifications</h4>
+              <h4>New Event Assignments</h4>
               <ul className="notification-list">
                 {notifications.map((notification, index) => (
                   <li key={index} className="message-item">
-                    <p>{notification.title}</p>
-                    <p>{notification.message}</p>
+                    <input type="checkbox" id={`newAssignment${index}`} />
+                    <label htmlFor={`newAssignment${index}`}>{notification.message}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="notification-section">
+              <h4>Updates</h4>
+              <ul className="notification-list">
+                {notifications.map((notification, index) => (
+                  <li key={index} className="message-item">
+                    <input type="checkbox" id={`update${index}`} />
+                    <label htmlFor={`update${index}`}>{notification.message}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="notification-section">
+              <h4>Reminders</h4>
+              <ul className="notification-list">
+                {notifications.map((notification, index) => (
+                  <li key={index} className="message-item">
+                    <input type="checkbox" id={`reminder${index}`} />
+                    <label htmlFor={`reminder${index}`}>{notification.message}</label>
                   </li>
                 ))}
               </ul>
