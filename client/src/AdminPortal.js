@@ -31,6 +31,7 @@ const AdminPortal = () => {
     try {
       const response = await axios.get('http://localhost:5000/matching/volunteers');
       setVolunteers(response.data);
+      console.log('Volunteers:', response.data);
     } catch (error) {
       console.error('Error fetching volunteers:', error);
     }
@@ -40,6 +41,7 @@ const AdminPortal = () => {
     try {
       const response = await axios.get('http://localhost:5000/matching/events');
       setEvents(response.data);
+      console.log('Events:', response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
     }
@@ -86,6 +88,8 @@ const AdminPortal = () => {
 
   const handleMatchSubmit = async (e) => {
     e.preventDefault();
+    console.log('Selected Volunteer ID:', selectedVolunteer); 
+    console.log('Selected Event ID:', selectedEvent); 
     try {
       await axios.post('http://localhost:5000/matching/match', {
         volunteerId: selectedVolunteer,
@@ -269,13 +273,13 @@ const AdminPortal = () => {
                     <td>{entry.eventName}</td>
                     <td>{entry.description}</td>
                     <td>{entry.location}</td>
-                    <td>{entry.requiredSkills.join(', ')}</td>
+                    <td>{Array.isArray(entry.requiredSkills) ? entry.requiredSkills.join(', ') : entry.requiredSkills}</td>
                     <td>{entry.urgency}</td>
                     <td>{new Date(entry.date).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
-                  </tr>
-                ))}
-              </tbody>
+                    </tr>
+                  ))}
+                  </tbody>
             </table>
           </div>
         </div>

@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/User');
 const Event = require('../models/event');
 const Notification = require('../models/notification');
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -71,9 +72,16 @@ router.post('/events', async (req, res) => {
 // Match volunteer to an event
 router.post('/match', async (req, res) => {
   const { volunteerId, eventId } = req.body;
+  // Add console logs to verify IDs
+  console.log('Received volunteerId:', volunteerId);
+  console.log('Received eventId:', eventId);
+
   try {
     const volunteer = await User.findById(volunteerId);
+    console.log('Volunteer found:', volunteer);
+    
     const event = await Event.findById(eventId);
+    console.log('Event found:', event);
 
     if (!volunteer || !event) {
       return res.status(404).json({ message: 'Volunteer or Event not found' });
@@ -96,6 +104,7 @@ router.post('/match', async (req, res) => {
 
     res.status(200).json({ message: 'Volunteer matched to event successfully' });
   } catch (error) {
+    console.log('Error matching volunteer to event:', error);
     res.status(400).json({ message: 'Error matching volunteer to event', error });
   }
 });
