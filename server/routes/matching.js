@@ -90,6 +90,15 @@ router.post('/match', async (req, res) => {
     volunteer.matchedEvents.push(eventId);
     event.volunteers.push(volunteerId);
 
+    // Check if the event is already in the matchedEvents array
+    if (!volunteer.matchedEvents.some(event => event.equals(eventId))) {
+      volunteer.matchedEvents.push(eventId);
+    }
+  
+    // Check if the volunteer is already in the event's volunteers array
+    if (!event.volunteers.some(volunteer => volunteer.equals(volunteerId))) {
+    }
+
     await volunteer.save();
     await event.save();
 
