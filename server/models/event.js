@@ -1,5 +1,5 @@
-// backend/models/event.js
 const mongoose = require('mongoose');
+const Notification = require('./notification'); // Ensure correct path
 
 const eventSchema = new mongoose.Schema({
   name: {
@@ -32,6 +32,24 @@ const eventSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Volunteer' 
   }]
+});
+
+// Create a notification after an event is created
+eventSchema.post('save', async function(doc, next) {
+  try {
+    const notification = new Notification({
+      type: 'event',
+      title: 'New Event Added',
+      message: `A new event named "${doc.name}" has been added.`,
+      event_id: doc._id,
+      event_name: doc.name,
+      assigned_date: new Date()
+    });
+    await notification.save();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = mongoose.model('Event', eventSchema);
