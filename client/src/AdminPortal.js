@@ -8,7 +8,6 @@ const AdminPortal = () => {
     'Proficiency in written and verbal communication.',
     'Empathy and the ability to work well with others.',
     'Building relationships and networking.',
-    'Organizational Skills:',
     'Time management',
     'Attention to detail and the ability to follow through on commitments.',
     'Ability to think critically and creatively to resolve issues.',
@@ -72,17 +71,15 @@ const AdminPortal = () => {
       name: e.target.eventName.value,
       description: e.target.eventDescription.value,
       location: e.target.location.value,
-      requiredSkills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
+      skills: Array.from(e.target.requiredSkills.selectedOptions, option => option.value),
       urgency: e.target.urgency.value,
       eventDate: e.target.eventDate.value,
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/admin/events', newEvent);
+      const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
       setEvents([...events, response.data]);
-      // Add success notification
       setNotifications([...notifications, { message: 'Event added successfully', type: 'success' }]);
-      // Clear the form
       e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
@@ -98,16 +95,8 @@ const AdminPortal = () => {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
-      // Add success notification
       setNotifications([...notifications, { message: 'Volunteer matched successfully', type: 'success' }]);
       alert('Volunteer matched successfully');
-      setNotifications([...notifications, {
-        type: 'match',
-        title: 'Volunteer Matched',
-        message: `A volunteer has been matched to the event "${selectedEvent}".`,
-        event_id: selectedEvent,
-        update_date: new Date()
-      }]);
     } catch (error) {
       console.error('Error matching volunteer:', error);
     }
@@ -156,6 +145,24 @@ const AdminPortal = () => {
     evt.currentTarget.className += ' active';
   };
 
+  const validateForm = (e) => {
+    const volunteerName = document.getElementById('volunteerName').value;
+    const volunteerSkills = document.getElementById('volunteerSkills').value;
+    const volunteerAvailability = document.getElementById('volunteerAvailability').value;
+
+    if (
+      volunteerName.length > 100 ||
+      volunteerSkills.length > 100 ||
+      volunteerAvailability.length > 100
+    ) {
+      alert('Each field must be no more than 100 characters.');
+      e.preventDefault();
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="admin-portal">
       <div className="sidebar">
@@ -168,7 +175,7 @@ const AdminPortal = () => {
       </div>
 
       <div className="main-content">
-        <div id="Welcome" className="tabcontent active">
+        <div id="Welcome" className="tabcontent">
           <div className="card welcome-card">
             <h3>Welcome Admin</h3>
           </div>
@@ -224,7 +231,7 @@ const AdminPortal = () => {
                 <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
                   <option value="">Select Volunteer</option>
                   {volunteers.map((volunteer) => (
-                    <option key={volunteer.id} value={volunteer.id}>{volunteer.name}</option>
+                    <option key={volunteer._id} value={volunteer._id}>{volunteer.fullName}</option>
                   ))}
                 </select>
               </div>
@@ -268,7 +275,7 @@ const AdminPortal = () => {
                     <td>{entry.location}</td>
                     <td>{Array.isArray(entry.requiredSkills) ? entry.requiredSkills.join(', ') : entry.requiredSkills}</td>
                     <td>{entry.urgency}</td>
-                    <td>{new Date(entry.eventDate).toLocaleDateString()}</td>
+                    <td>{new Date(entry.date).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
                     </tr>
                   ))}
