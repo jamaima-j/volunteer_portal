@@ -87,9 +87,6 @@ router.post('/match', async (req, res) => {
       return res.status(404).json({ message: 'Volunteer or Event not found' });
     }
 
-    volunteer.matchedEvents.push(eventId);
-    event.volunteers.push(volunteerId);
-
     // Check if the event is already in the matchedEvents array
     if (!volunteer.matchedEvents.some(event => event.equals(eventId))) {
       volunteer.matchedEvents.push(eventId);
@@ -97,6 +94,7 @@ router.post('/match', async (req, res) => {
   
     // Check if the volunteer is already in the event's volunteers array
     if (!event.volunteers.some(volunteer => volunteer.equals(volunteerId))) {
+      event.volunteers.push(volunteerId);
     }
 
     await volunteer.save();
