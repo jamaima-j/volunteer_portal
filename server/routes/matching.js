@@ -1,14 +1,15 @@
 const express = require('express');
-const Volunteer = require('../models/Volunteer');
+const User = require('../models/User');
 const Event = require('../models/event');
-const Notification = require('../models/notification'); // Import the Notification model
+const Notification = require('../models/notification');
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
 // Get all volunteers
 router.get('/volunteers', async (req, res) => {
   try {
-    const volunteers = await Volunteer.find();
+    const volunteers = await User.find({ accountType: 'volunteer' });
     res.json(volunteers);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching volunteers', error });
@@ -27,9 +28,18 @@ router.get('/events', async (req, res) => {
 
 // Add a new volunteer
 router.post('/volunteers', async (req, res) => {
-  const { name, email, skills, availability } = req.body;
+  const { fullName, email, selectedSkills, availability } = req.body;
   try {
-    const volunteer = new Volunteer({ name, email, skills, availability, matchedEvents: [] });
+    const volunteer = new User({ 
+      fullName, 
+      email, 
+      selectedSkills, 
+      availability, 
+      accountType: 'volunteer',
+      matchedEvents: [],
+      password: 'defaultpassword', // Default password
+      profileComplete: true
+    });
     await volunteer.save();
     res.status(201).json(volunteer);
   } catch (error) {
@@ -44,7 +54,6 @@ router.post('/events', async (req, res) => {
     const event = new Event({ name, description, location, requiredSkills, urgency, eventDate, volunteers: [] });
     await event.save();
 
-    // Create a notification for the new event
     const notification = new Notification({
       type: 'Event',
       title: `New Event Added: ${event.name}`,
@@ -63,9 +72,16 @@ router.post('/events', async (req, res) => {
 // Match volunteer to an event
 router.post('/match', async (req, res) => {
   const { volunteerId, eventId } = req.body;
+  // Add console logs to verify IDs
+  console.log('Received volunteerId:', volunteerId);
+  console.log('Received eventId:', eventId);
+
   try {
-    const volunteer = await Volunteer.findById(volunteerId);
+    const volunteer = await User.findById(volunteerId);
+    console.log('Volunteer found:', volunteer);
+    
     const event = await Event.findById(eventId);
+    console.log('Event found:', event);
 
     if (!volunteer || !event) {
       return res.status(404).json({ message: 'Volunteer or Event not found' });
@@ -77,11 +93,10 @@ router.post('/match', async (req, res) => {
     await volunteer.save();
     await event.save();
 
-    // Create a notification for the volunteer match
     const notification = new Notification({
       type: 'Matching',
       title: 'Volunteer Matched',
-      message: `Volunteer ${volunteer.name} has been matched to event ${event.name}.`,
+      message: `Volunteer ${volunteer.fullName} has been matched to event ${event.name}.`,
       event_id: event._id,
       event_name: event.name
     });
@@ -89,6 +104,7 @@ router.post('/match', async (req, res) => {
 
     res.status(200).json({ message: 'Volunteer matched to event successfully' });
   } catch (error) {
+    console.log('Error matching volunteer to event:', error);
     res.status(400).json({ message: 'Error matching volunteer to event', error });
   }
 });

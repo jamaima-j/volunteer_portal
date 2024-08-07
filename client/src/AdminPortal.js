@@ -32,6 +32,7 @@ const AdminPortal = () => {
     try {
       const response = await axios.get('http://localhost:5000/matching/volunteers');
       setVolunteers(response.data);
+      console.log('Volunteers:', response.data);
     } catch (error) {
       console.error('Error fetching volunteers:', error);
     }
@@ -41,6 +42,7 @@ const AdminPortal = () => {
     try {
       const response = await axios.get('http://localhost:5000/matching/events');
       setEvents(response.data);
+      console.log('Events:', response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
     }
@@ -78,15 +80,9 @@ const AdminPortal = () => {
     try {
       const response = await axios.post('http://localhost:5000/admin/events', newEvent);
       setEvents([...events, response.data]);
-      setNotifications([...notifications, {
-        type: 'event',
-        title: 'New Event Added',
-        message: `A new event named "${newEvent.name}" has been added.`,
-        event_id: response.data._id,
-        event_name: newEvent.name,
-        assigned_date: new Date()
-      }]);
-      // Clear the form fields
+      // Add success notification
+      setNotifications([...notifications, { message: 'Event added successfully', type: 'success' }]);
+      // Clear the form
       e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
@@ -95,11 +91,15 @@ const AdminPortal = () => {
 
   const handleMatchSubmit = async (e) => {
     e.preventDefault();
+    console.log('Selected Volunteer ID:', selectedVolunteer); 
+    console.log('Selected Event ID:', selectedEvent); 
     try {
       await axios.post('http://localhost:5000/matching/match', {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
+      // Add success notification
+      setNotifications([...notifications, { message: 'Volunteer matched successfully', type: 'success' }]);
       alert('Volunteer matched successfully');
       setNotifications([...notifications, {
         type: 'match',
@@ -111,6 +111,36 @@ const AdminPortal = () => {
     } catch (error) {
       console.error('Error matching volunteer:', error);
     }
+  };
+  
+  const downloadPDFReport = () => {
+    axios.get('http://localhost:5000/admin/reporting/report/pdf', { responseType: 'blob' })
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'volunteer_report.pdf');
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        console.error('There was an error generating the PDF report!', error);
+      });
+  };
+
+  const downloadCSVReport = () => {
+    axios.get('http://localhost:5000/admin/reporting/report/csv', { responseType: 'blob' })
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'volunteer_report.csv');
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        console.error('There was an error generating the CSV report!', error);
+      });
   };
 
   const openTab = (evt, tabName) => {
@@ -194,7 +224,7 @@ const AdminPortal = () => {
                 <select id="volunteerSelect" onChange={(e) => setSelectedVolunteer(e.target.value)} required>
                   <option value="">Select Volunteer</option>
                   {volunteers.map((volunteer) => (
-                    <option key={volunteer._id} value={volunteer._id}>{volunteer.name}</option>
+                    <option key={volunteer.id} value={volunteer.id}>{volunteer.name}</option>
                   ))}
                 </select>
               </div>
@@ -236,13 +266,13 @@ const AdminPortal = () => {
                     <td>{entry.eventName}</td>
                     <td>{entry.description}</td>
                     <td>{entry.location}</td>
-                    <td>{entry.requiredSkills.join(', ')}</td>
+                    <td>{Array.isArray(entry.requiredSkills) ? entry.requiredSkills.join(', ') : entry.requiredSkills}</td>
                     <td>{entry.urgency}</td>
                     <td>{new Date(entry.eventDate).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
-                  </tr>
-                ))}
-              </tbody>
+                    </tr>
+                  ))}
+                  </tbody>
             </table>
           </div>
         </div>

@@ -1,5 +1,5 @@
 const express = require('express');
-const Volunteer = require('../models/Volunteer');
+const User = require('../models/User');
 const Event = require('../models/event');
 
 const router = express.Router();
@@ -7,17 +7,17 @@ const router = express.Router();
 // Get volunteer history
 router.get('/', async (req, res) => {
   try {
-    const volunteers = await Volunteer.find().populate('matchedEvents');
+    const volunteers = await User.find({ accountType: 'volunteer' }).populate('matchedEvents');
     const history = volunteers.flatMap(volunteer => {
       return volunteer.matchedEvents.map(event => {
         return {
-          volunteerName: volunteer.name,
+          volunteerName: volunteer.fullName,
           eventName: event.name,
           description: event.description,
           location: event.location,
-          requiredSkills: event.requiredSkills.join(', '),
+          requiredSkills: Array.isArray(event.requiredSkills) ? event.requiredSkills : [],
           urgency: event.urgency,
-          date: event.date,
+          date: event.eventDate,
           participationStatus: 'Participated'
         };
       });

@@ -31,6 +31,8 @@ const matchingRoute = require('./routes/matching');
 const volunteerHistoryRoute = require('./routes/volunteerHistory');
 const statesRoute = require('./routes/states');
 const profileRoute = require('./routes/profile');
+const reportingRoute = require('./routes/reporting');
+const volunteerRoutes = require('./routes/volunteers');
 
 // Use routes
 app.use('/admin/events', eventsRoute);
@@ -40,6 +42,8 @@ app.use('/matching', matchingRoute);
 app.use('/volunteerHistory', volunteerHistoryRoute);
 app.use('/states', statesRoute);
 app.use('/profile', profileRoute);
+app.use('/admin/reporting', reportingRoute);
+app.use('/api', volunteerRoutes);
 
 // Test route
 app.get('/test', (req, res) => {
