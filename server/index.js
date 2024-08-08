@@ -33,6 +33,7 @@ const statesRoute = require('./routes/states');
 const profileRoute = require('./routes/profile');
 const reportingRoute = require('./routes/reporting');
 const volunteerRoutes = require('./routes/volunteers');
+const notificationsRoutes = require('./routes/notifications');
 
 // Use routes
 app.use('/admin/events', eventsRoute);
@@ -44,7 +45,7 @@ app.use('/states', statesRoute);
 app.use('/profile', profileRoute);
 app.use('/admin/reporting', reportingRoute);
 app.use('/api', volunteerRoutes);
-
+app.use('/notifications', notificationsRoute);
 // Test route
 app.get('/test', (req, res) => {
   res.send('Server is running');

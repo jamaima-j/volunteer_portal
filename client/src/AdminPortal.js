@@ -55,11 +55,12 @@ const AdminPortal = () => {
       console.error('Error fetching volunteer history:', error);
     }
   };
-
+ 
   const fetchNotifications = async () => {
     try {
       const response = await axios.get('http://localhost:5000/notifications');
       setNotifications(response.data);
+      console.log('Notifications:', response.data); 
     } catch (error) {
       console.error('Error fetching notifications:', error);
     }
@@ -79,7 +80,7 @@ const AdminPortal = () => {
     try {
       const response = await axios.post('http://localhost:5000/admin/events', newEvent); 
       setEvents([...events, response.data]);
-      setNotifications([...notifications, { message: 'Event added successfully', type: 'success' }]);
+      setNotifications([...notifications, { message: `Event "${newEvent.name}" added successfully`, type: 'success' }]);
       e.target.reset();
     } catch (error) {
       console.error('Error adding event:', error);
@@ -95,7 +96,7 @@ const AdminPortal = () => {
         volunteerId: selectedVolunteer,
         eventId: selectedEvent,
       });
-      setNotifications([...notifications, { message: 'Volunteer matched successfully', type: 'success' }]);
+      setNotifications([...notifications, { message: `Volunteer matched to event successfully`, type: 'success' }]);
       alert('Volunteer matched successfully');
     } catch (error) {
       console.error('Error matching volunteer:', error);
@@ -277,9 +278,9 @@ const AdminPortal = () => {
                     <td>{entry.urgency}</td>
                     <td>{new Date(entry.date).toLocaleDateString()}</td>
                     <td>{entry.participationStatus}</td>
-                    </tr>
-                  ))}
-                  </tbody>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
@@ -332,3 +333,4 @@ const AdminPortal = () => {
 };
 
 export default AdminPortal;
+
