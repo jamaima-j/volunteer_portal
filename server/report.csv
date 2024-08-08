@@ -1,2 +1,5 @@
 Type,Name,Details
-
+Volunteer,leann alkhateeb,Community Health Fair on Sat Aug 31 2024 19:00:00 GMT-0500 (Central Daylight Time); Park Clean-Up on Fri Aug 09 2024 19:00:00 GMT-0500 (Central Daylight Time)
+Volunteer,John Doe,Park Clean-Up on Fri Aug 09 2024 19:00:00 GMT-0500 (Central Daylight Time); Community Health Fair on Sat Aug 31 2024 19:00:00 GMT-0500 (Central Daylight Time)
+Event,Park Clean-Up,Description: Cleaning the local park; Location: Central Park; Date: Fri Aug 09 2024 19:00:00 GMT-0500 (Central Daylight Time); Volunteers: 
+Event,Community Health Fair,Description: A health fair providing free medical check-ups and health information.; Location: City Center; Date: Sat Aug 31 2024 19:00:00 GMT-0500 (Central Daylight Time); Volunteers: 

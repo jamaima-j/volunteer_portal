@@ -1,8 +1,8 @@
 const express = require('express');
 const PDFDocument = require('pdfkit');
 const { createObjectCsvWriter } = require('csv-writer');
-const User = require('../models/User'); 
-const Event = require('../models/event'); 
+const User = require('../models/User');
+const Event = require('../models/event');
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ const generatePDF = async (res) => {
     doc.fontSize(20).text(`Volunteer: ${volunteer.fullName}`);
     doc.fontSize(15).text(`Participation History:`);
     volunteer.matchedEvents.forEach(event => {
-      doc.fontSize(12).text(`- ${event.name} on ${event.date}`);
+      doc.fontSize(12).text(`- ${event.name} on ${event.eventDate}`); // Make sure to use eventDate here
     });
     doc.moveDown();
   });
@@ -66,7 +66,7 @@ const generateCSV = async (res) => {
     records.push({
       type: 'Volunteer',
       name: volunteer.fullName,
-      details: volunteer.matchedEvents.map(event => `${event.name} on ${event.date}`).join('; ')
+      details: volunteer.matchedEvents.map(event => `${event.name} on ${event.eventDate}`).join('; ')
     });
   });
 
