@@ -33,7 +33,7 @@ const statesRoute = require('./routes/states');
 const profileRoute = require('./routes/profile');
 const reportingRoute = require('./routes/reporting');
 const volunteerRoutes = require('./routes/volunteers');
-const notificationsRoutes = require('./routes/notifications');
+const notificationsRoute= require('./routes/notifications');
 
 // Use routes
 app.use('/admin/events', eventsRoute);
