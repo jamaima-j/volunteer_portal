@@ -25,7 +25,7 @@ beforeEach(async () => {
 
 describe('Events API', () => {
   it('should get all events', async () => {
-    await Event.create({ name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'Low', eventDate: new Date() });
+    await Event.create({ name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'low', eventDate: new Date() });
     const response = await request(app).get('/events');
     console.log('GET response:', response.body);
     expect(response.status).toBe(200);
@@ -34,7 +34,7 @@ describe('Events API', () => {
   }, 20000);
 
   it('should create a new event', async () => {
-    const event = { name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'Low', eventDate: new Date() };
+    const event = { name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'low', eventDate: new Date() };
     const response = await request(app).post('/events').send(event);
     console.log('POST response:', response.body);
     expect(response.status).toBe(201);
@@ -42,7 +42,7 @@ describe('Events API', () => {
   }, 20000);
 
   it('should update an event', async () => {
-    const event = await Event.create({ name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'Low', eventDate: new Date() });
+    const event = await Event.create({ name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'low', eventDate: new Date() });
     const updatedEvent = { name: 'Updated Event', description: 'Updated Description', location: 'Updated Location' };
     const response = await request(app).put(`/events/${event._id}`).send(updatedEvent);
     console.log('PUT response:', response.body);
@@ -51,7 +51,7 @@ describe('Events API', () => {
   }, 20000);
 
   it('should delete an event', async () => {
-    const event = await Event.create({ name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'Low', eventDate: new Date() });
+    const event = await Event.create({ name: 'Test Event', description: 'Event Description', location: 'Test Location', requiredSkills: ['Skill 1'], urgency: 'low', eventDate: new Date() });
     const response = await request(app).delete(`/events/${event._id}`);
     console.log('DELETE response:', response.body);
     expect(response.status).toBe(200);
