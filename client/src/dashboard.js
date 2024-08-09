@@ -11,12 +11,12 @@ const Dashboard = () => {
 
   const renderTabContent = () => {
     switch (activeTab) {
+      case 'notifications':
+        return <Notifications />;
       case 'events':
         return <UpcomingEvents />;
       case 'profile':
         return <ProfileTab />;
-      case 'notifications':
-        return <Notifications />;
       case 'profileManagement':
         return <ProfileManagement />;
       default:
@@ -29,18 +29,6 @@ const Dashboard = () => {
       <div className="dashboard">
         <nav className="navbar">
           <ul>
-            <li
-              className={activeTab === 'events' ? 'active' : ''}
-              onClick={() => setActiveTab('events')}
-            >
-              Upcoming Events
-            </li>
-            <li
-              className={activeTab === 'profile' ? 'active' : ''}
-              onClick={() => setActiveTab('profile')}
-            >
-              Profile
-            </li>
             <li
               className={activeTab === 'notifications' ? 'active' : ''}
               onClick={() => setActiveTab('notifications')}

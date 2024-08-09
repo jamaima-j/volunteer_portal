@@ -15,7 +15,7 @@ describe('Notifications API', () => {
   let app;
 
   beforeAll(async () => {
-    await mongoose.connect('mongodb://localhost:27017/volunteer', {
+    await mongoose.connect('mongodb://127.0.0.1:27017/volunteer', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
