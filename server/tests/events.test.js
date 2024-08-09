@@ -55,6 +55,7 @@ describe('Events API', () => {
     const response = await request(app).delete(`/events/${event._id}`);
     console.log('DELETE response:', response.body);
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Event deleted');
+    expect(response.body.message).toBe('Event and related notifications deleted');
+
   }, 20000);
 });

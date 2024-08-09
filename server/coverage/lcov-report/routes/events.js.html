@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.41% </span>
+                <span class="strong">76.19% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/43</span>
+                <span class='fraction'>32/42</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.41% </span>
+                <span class="strong">76.19% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/43</span>
+                <span class='fraction'>32/42</span>
             </div>
         
             
@@ -151,14 +151,7 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -231,28 +224,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// backend/routes/events.js
-const express = require('express');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
 const router = express.Router();
 const Event = require('../models/event');
 const Notification = require('../models/notification'); // Import the Notification model
@@ -325,22 +312,17 @@ router.delete('/:id', async (req, res) =&gt; {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (!event) {
 <span class="cstat-no" title="statement not covered" >      return res.status(404).json({ message: 'Event not found' });</span>
     }
-    await event.remove();
-&nbsp;
-    // Create a notification for the event deletion
-    const notification = <span class="cstat-no" title="statement not covered" >new Notification({</span>
-      type: 'Event',
-      title: `Event Deleted: ${event.name}`,
-      message: `The event ${event.name} has been deleted.`,
-      event_id: event._id,
-      event_name: event.name
-    });
-<span class="cstat-no" title="statement not covered" >    await notification.save();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    res.status(200).json({ message: 'Event deleted' });</span>
+    
+    // Delete the event
+    await Event.findByIdAndDelete(req.params.id);
+    
+    // Delete notifications related to this event
+    await Notification.deleteMany({ event_id: req.params.id });
+    
+    res.status(200).json({ message: 'Event and related notifications deleted' });
   } catch (err) {
-    console.error('Error deleting event:', err);
-    res.status(500).json({ message: err.message });
+<span class="cstat-no" title="statement not covered" >    console.error('Error deleting event:', err);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(500).json({ message: err.message });</span>
   }
 });
 &nbsp;
@@ -352,7 +334,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-08-09T18:47:17.083Z
+                at 2024-08-09T21:58:10.775Z
             </div>
         <script src="../prettify.js"></script>
         <script>

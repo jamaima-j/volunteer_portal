@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.16% </span>
+                <span class="strong">45.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/37</span>
+                <span class='fraction'>17/37</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">77.27% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/22</span>
+                <span class='fraction'>17/22</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.16% </span>
+                <span class="strong">45.94% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/37</span>
+                <span class='fraction'>17/37</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -124,12 +124,18 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
@@ -139,30 +145,30 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -189,9 +195,12 @@
 const router = express.Router();
 const User = require('../models/User');
 &nbsp;
-//profile update endpoint
+// Profile update endpoint
 router.put('/update', async (req, res) =&gt; {
-  const { email, fullName, address1, address2, city, state, zip, selectedSkills, preferences, availability } = req.body;
+  const {
+    email, fullName, address1, address2, city, state, zip,
+    selectedSkills, preferences, availability
+  } = req.body;
 &nbsp;
   console.log('Received request to update profile with email:', email);
 &nbsp;
@@ -204,26 +213,26 @@ router.put('/update', async (req, res) =&gt; {
   }
 &nbsp;
   if (!address1 || address1.length &gt; 100) {
-    return res.status(400).json({ message: 'Address1 is required and must be less than 100 characters.' });
+    return res.status(400).json({ message: 'Address 1 is required and must be less than 100 characters.' });
   }
 &nbsp;
   if (!city || city.length &gt; 100) {
     return res.status(400).json({ message: 'City is required and must be less than 100 characters.' });
   }
 &nbsp;
-  if (!state) {
-    return res.status(400).json({ message: 'State is required.' });
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!state) {
+<span class="cstat-no" title="statement not covered" >    return res.status(400).json({ message: 'State is required.' });</span>
   }
 &nbsp;
-  if (!zip || !/^\d{5}(-\d{4})?$/.test(zip)) {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!zip || !/^\d{5}(-\d{4})?$/.test(zip)) {
     return res.status(400).json({ message: 'Zip code is required and must be either 5 or 9 digits long.' });
   }
 &nbsp;
-  try {
-    const user = await User.findOne({ email });
-    console.log('User found:', user);
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const user = <span class="cstat-no" title="statement not covered" >await User.findOne({ email });</span>
+<span class="cstat-no" title="statement not covered" >    console.log('User found:', user);</span>
+<span class="cstat-no" title="statement not covered" >    if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >      return res.status(404).json({ message: 'User not found' });</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    user.fullName = fullName;</span>
@@ -232,7 +241,7 @@ router.put('/update', async (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >    user.city = city;</span>
 <span class="cstat-no" title="statement not covered" >    user.state = state;</span>
 <span class="cstat-no" title="statement not covered" >    user.zip = zip;</span>
-<span class="cstat-no" title="statement not covered" >    user.skills = selectedSkills;</span>
+<span class="cstat-no" title="statement not covered" >    user.selectedSkills = selectedSkills;</span>
 <span class="cstat-no" title="statement not covered" >    user.preferences = preferences;</span>
 <span class="cstat-no" title="statement not covered" >    user.availability = availability;</span>
 <span class="cstat-no" title="statement not covered" >    user.profileComplete = true;</span>
@@ -253,7 +262,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-08-09T18:47:17.154Z
+                at 2024-08-09T21:58:10.893Z
             </div>
         <script src="../prettify.js"></script>
         <script>

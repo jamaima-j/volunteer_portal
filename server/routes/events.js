@@ -1,4 +1,3 @@
-// backend/routes/events.js
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/event');
@@ -72,19 +71,14 @@ router.delete('/:id', async (req, res) => {
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
     }
-    await event.remove();
-
-    // Create a notification for the event deletion
-    const notification = new Notification({
-      type: 'Event',
-      title: `Event Deleted: ${event.name}`,
-      message: `The event ${event.name} has been deleted.`,
-      event_id: event._id,
-      event_name: event.name
-    });
-    await notification.save();
-
-    res.status(200).json({ message: 'Event deleted' });
+    
+    // Delete the event
+    await Event.findByIdAndDelete(req.params.id);
+    
+    // Delete notifications related to this event
+    await Notification.deleteMany({ event_id: req.params.id });
+    
+    res.status(200).json({ message: 'Event and related notifications deleted' });
   } catch (err) {
     console.error('Error deleting event:', err);
     res.status(500).json({ message: err.message });
