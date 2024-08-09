@@ -2,29 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ProfileManagement = () => {
-  const [states, setStates] = useState([]);
   const [userProfile, setUserProfile] = useState({
     email: '',
     fullName: '',
-    address: '',
+    address1: '',
+    address2: '',
     city: '',
     state: '',
     zip: '',
-    skills: '',
+    selectedSkills: '',
     preferences: '',
     availability: ''
   });
 
-  useEffect(() => {
-    //fetch states from backend
-    axios.get('http://localhost:5000/states')
-      .then(response => {
-        setStates(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching states:', error);
-      });
+  const states = [
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+    "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+    "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+    "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+  ];
 
+  useEffect(() => {
     //fetch user profile details
     const email = localStorage.getItem('email');
     if (email) {
@@ -62,19 +61,77 @@ const ProfileManagement = () => {
     <div>
       <h2>Profile Management</h2>
       <form onSubmit={handleSubmission}>
-        <input type="text" name="fullName" value={userProfile.fullName} onChange={handleInputChange} placeholder="Full Name" required />
-        <input type="text" name="address" value={userProfile.address} onChange={handleInputChange} placeholder="Address" required />
-        <input type="text" name="city" value={userProfile.city} onChange={handleInputChange} placeholder="City" required />
-        <select name="state" value={userProfile.state} onChange={handleInputChange} required>
+        <input
+          type="text"
+          name="fullName"
+          value={userProfile.fullName}
+          onChange={handleInputChange}
+          placeholder="Full Name"
+          required
+        />
+        <input
+          type="text"
+          name="address1"
+          value={userProfile.address1}
+          onChange={handleInputChange}
+          placeholder="Address Line 1"
+          required
+        />
+        <input
+          type="text"
+          name="address2"
+          value={userProfile.address2}
+          onChange={handleInputChange}
+          placeholder="Address Line 2"
+        />
+        <input
+          type="text"
+          name="city"
+          value={userProfile.city}
+          onChange={handleInputChange}
+          placeholder="City"
+          required
+        />
+        <select
+          name="state"
+          value={userProfile.state}
+          onChange={handleInputChange}
+          required
+        >
           <option value="">Select State</option>
           {states.map(state => (
-            <option key={state._id} value={state.name}>{state.name}</option>
+            <option key={state} value={state}>{state}</option>
           ))}
         </select>
-        <input type="text" name="zip" value={userProfile.zip} onChange={handleInputChange} placeholder="Zip" required />
-        <input type="text" name="skills" value={userProfile.skills} onChange={handleInputChange} placeholder="Skills" />
-        <input type="text" name="preferences" value={userProfile.preferences} onChange={handleInputChange} placeholder="Preferences" />
-        <input type="text" name="availability" value={userProfile.availability} onChange={handleInputChange} placeholder="Availability" />
+        <input
+          type="text"
+          name="zip"
+          value={userProfile.zip}
+          onChange={handleInputChange}
+          placeholder="Zip Code"
+          required
+        />
+        <input
+          type="text"
+          name="selectedSkills"
+          value={userProfile.selectedSkills}
+          onChange={handleInputChange}
+          placeholder="Skills"
+        />
+        <input
+          type="text"
+          name="preferences"
+          value={userProfile.preferences}
+          onChange={handleInputChange}
+          placeholder="Preferences"
+        />
+        <input
+          type="text"
+          name="availability"
+          value={userProfile.availability}
+          onChange={handleInputChange}
+          placeholder="Availability"
+        />
         <button type="submit">Update Profile</button>
       </form>
     </div>

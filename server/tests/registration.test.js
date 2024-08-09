@@ -9,7 +9,7 @@ app.use(express.json());
 app.use('/auth', registrationRoute);
 
 beforeAll(async () => {
-  await mongoose.connect('mongodb://localhost:27017/volunteer', { useNewUrlParser: true, useUnifiedTopology: true });
+  await mongoose.connect('mongodb://127.0.0.1:27017/volunteer', { useNewUrlParser: true, useUnifiedTopology: true });
 });
 
 afterAll(async () => {
@@ -23,7 +23,7 @@ beforeEach(async () => {
 describe('Registration', () => {
   it('should register successfully with valid data', async () => {
     const response = await request(app).post('/auth/register').send({
-      email: 'newuser@test.com',
+      email: 'newuser1@test.com',
       password: 'newpassword',
       accountType: 'volunteer'
     });
@@ -37,7 +37,7 @@ describe('Registration', () => {
     await User.create({ email: 'test@test.com', password: 'testtest', accountType: 'volunteer' });
 
     const response = await request(app).post('/auth/register').send({
-      email: 'test@test.com',
+      email: 'test1@test.com',
       password: 'testtest',
       accountType: 'volunteer'
     });

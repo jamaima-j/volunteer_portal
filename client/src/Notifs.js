@@ -18,24 +18,22 @@ const Notifs = () => {
     }
   };
 
-  const sortNotificationsByDateTime = (notifications) => {
-    return notifications.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
-  };
-
-  const sortedNotifications = sortNotificationsByDateTime(notifications);
+  const sortedNotifications = notifications.sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
 
   return (
     <div className="notifs-container">
       <h2>Notifications</h2>
       {sortedNotifications.map((notification, index) => (
         <div key={index} className="notification">
-          <h3>{new Date(notification.datetime).toLocaleString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric', 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          })}</h3>
+          {notification.datetime && !isNaN(new Date(notification.datetime)) && (
+            <h3>{new Date(notification.datetime).toLocaleString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric', 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            })}</h3>
+          )}
           <p>{notification.message}</p>
         </div>
       ))}

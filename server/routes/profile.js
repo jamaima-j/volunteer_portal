@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-//profile update endpoint
+// Profile update endpoint
 router.put('/update', async (req, res) => {
-  const { email, fullName, address1, address2, city, state, zip, selectedSkills, preferences, availability } = req.body;
+  const {
+    email, fullName, address1, address2, city, state, zip,
+    selectedSkills, preferences, availability
+  } = req.body;
 
   console.log('Received request to update profile with email:', email);
 
@@ -17,7 +20,7 @@ router.put('/update', async (req, res) => {
   }
 
   if (!address1 || address1.length > 100) {
-    return res.status(400).json({ message: 'Address1 is required and must be less than 100 characters.' });
+    return res.status(400).json({ message: 'Address 1 is required and must be less than 100 characters.' });
   }
 
   if (!city || city.length > 100) {
@@ -45,7 +48,7 @@ router.put('/update', async (req, res) => {
     user.city = city;
     user.state = state;
     user.zip = zip;
-    user.skills = selectedSkills;
+    user.selectedSkills = selectedSkills;
     user.preferences = preferences;
     user.availability = availability;
     user.profileComplete = true;
