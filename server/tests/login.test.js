@@ -1,7 +1,6 @@
 const request = require('supertest');
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const loginRoute = require('../routes/login');
 const User = require('../models/User');
 
@@ -10,20 +9,16 @@ app.use(express.json());
 app.use('/auth', loginRoute);
 
 beforeAll(async () => {
-  await mongoose.connect('mongodb://127.0.0.1:27017/volunteer', { useNewUrlParser: true, useUnifiedTopology: true });
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
+  await mongoose.connect('mongodb://127.0.0.1:27017/volunteer', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 });
 
 beforeEach(async () => {
   await User.deleteMany({});
-  await User.create({
-    email: 'test@test.com',
-    password: await bcrypt.hash('testtest', 10),
-    accountType: 'volunteer',
-  });
+  const user = new User({ email: 'test@test.com', password: 'testtest', accountType: 'volunteer' });
+  await user.save();
 });
 
 describe('Login', () => {

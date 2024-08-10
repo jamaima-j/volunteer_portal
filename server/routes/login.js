@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-//const bcrypt = require('bcrypt');
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -9,7 +8,7 @@ router.post('/login', async (req, res) => {
   console.log('Received login request:', req.body);
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
+    return res.status(400).json({ message: 'Invalid login. Please check your email and password.' });
   }
 
   if (email === 'admin@admin.com' && password === '12345678') { 
@@ -28,12 +27,11 @@ router.post('/login', async (req, res) => {
     console.log('User found:', user);
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password.' });
+      return res.status(400).json({ message: 'Invalid login. Please check your email and password.' });
     }
 
-    // Compare the plain text password
     if (password !== user.password) {
-      return res.status(400).json({ message: 'Invalid email or password.' });
+      return res.status(400).json({ message: 'Invalid login. Please check your email and password.' });
     }
 
     res.status(200).json({ message: 'Login successful', user });
@@ -44,6 +42,7 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
+
 
 /* router.post('/login', async (req, res) => {
   const { email, password } = req.body;

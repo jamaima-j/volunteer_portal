@@ -23,7 +23,7 @@ beforeEach(async () => {
 describe('Registration', () => {
   it('should register successfully with valid data', async () => {
     const response = await request(app).post('/auth/register').send({
-      email: 'newuser1@test.com',
+      email: 'newuser@test.com',
       password: 'newpassword',
       accountType: 'volunteer'
     });
@@ -37,7 +37,7 @@ describe('Registration', () => {
     await User.create({ email: 'test@test.com', password: 'testtest', accountType: 'volunteer' });
 
     const response = await request(app).post('/auth/register').send({
-      email: 'test1@test.com',
+      email: 'test@test.com',
       password: 'testtest',
       accountType: 'volunteer'
     });
